@@ -1,0 +1,9 @@
+# dados brutos (baixar nas fontes; ver README)
+PRF/
+INMET/
+IBGE/
+# arquivos grandes regeneraveis
+saida/base_final.csv
+saida/inmet/*.parquet
+__pycache__/
+*.pyc

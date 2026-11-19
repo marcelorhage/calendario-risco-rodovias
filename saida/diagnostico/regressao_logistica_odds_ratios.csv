@@ -1,0 +1,23 @@
+,odds_ratio,ic95_inf,ic95_sup,p
+Causa: Pedestre,7.9878,7.6292,8.3632,0.0
+Horário: Madrugada (00–05h),2.1159,2.0354,2.1996,0.0
+Causa: Manobras e desrespeito às regras,1.9925,1.9279,2.0593,0.0
+Pista: Simples,1.8393,1.7877,1.8924,0.0
+Horário: Noite (18–23h),1.612,1.56,1.6656,0.0
+Causa: Velocidade,1.444,1.3786,1.5125,0.0
+Chuva: Sem dado,1.3692,1.3328,1.4066,0.0
+Causa: Sono e condição de saúde,1.363,1.287,1.4435,0.0
+Fim de semana,1.1747,1.1445,1.2056,0.0
+Data especial (feriado etc.),1.0064,0.9677,1.0466,0.7502
+Pista: Múltipla,0.9745,0.9192,1.0331,0.3858
+Horário: Manhã (06–11h),0.9428,0.9086,0.9784,0.0018
+Chuva: Moderada,0.9185,0.812,1.0391,0.1768
+Causa: Via e sinalização,0.8805,0.8287,0.9355,0.0
+Chuva: Fraca,0.8704,0.8195,0.9245,0.0
+Chuva: Forte,0.8465,0.6955,1.0302,0.0963
+Causa: Clima e ambiente,0.7306,0.649,0.8225,0.0
+Causa: Animais e obstáculos,0.6311,0.578,0.6891,0.0
+Causa: Álcool e drogas (condutor),0.618,0.58,0.6584,0.0
+Trecho urbano,0.4858,0.472,0.5001,0.0
+Causa: Falha do veículo,0.4106,0.3807,0.443,0.0
+Causa: Distância de segurança,0.4069,0.371,0.4464,0.0

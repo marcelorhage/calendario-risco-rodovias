@@ -1,0 +1,56 @@
+H1 {"feriado_em_dia_util_vs_dia_util_comum_acidentes": {"media_grupo": 178.52, "media_comparacao": 173.64, "diferenca_%": 2.8, "n_dias": [73, 1444], "mann_whitney_p": 0.150331}, "feriado_em_dia_util_vs_dia_util_comum_mortos": {"media_grupo": 15.4, "media_comparacao": 13.12, "diferenca_%": 17.3, "n_dias": [73, 1444], "mann_whitney_p": 0.001455}, "fds_de_feriadao_vs_fds_comum_acidentes": {"media_grupo": 208.03, "media_comparacao": 214.29, "diferenca_%": -2.9, "n_dias": [103, 523], "mann_whitney_p": 0.112951}, "fds_de_feriadao_vs_fds_comum_mortos": {"media_grupo": 19.61, "media_comparacao": 21.33, "diferenca_%": -8.1, "n_dias": [103, 523], "mann_whitney_p": 0.013858}, "letalidade_especial_vs_comum": {"pct_fatais_especial": 7.58, "pct_fatais_comum": 7.12, "qui2_p": 0.00042513}, "modelo_mortos_dia": {"efeito_data_especial_%": 2.7, "ic95_%": [-2.1, 7.7], "p": 0.28119}, "modelo_acidentes_dia": {"efeito_data_especial_%": -0.7, "ic95_%": [-3.0, 1.6], "p": 0.538925}}
+H2 {"pct_fatais_madrugada_fds": 11.24, "pct_fatais_demais": 6.93, "risco_relativo": 1.62, "qui2_p": 0.0, "letalidade_madrugada_fds": 13.21, "letalidade_madrugada_dia_util": 13.12, "pct_acidentes_madrugada_fds": 5.66, "pct_mortos_madrugada_fds": 8.94, "qui2_p_madrugada_fds_vs_madrugada_util": 0.94966}
+H3 {"pct_acidentes_pico": 36.0, "pct_horas_pico": 25.0, "letalidade_pico": 7.58, "letalidade_fora_pico": 8.8, "spearman_volume_letalidade": -0.677, "spearman_p": 0.000284, "hora_mais_acidentes": 18, "hora_maior_letalidade": 3}
+H4 {"pct_horas_com_chuva_nas_estacoes": 8.54, "pct_acidentes_com_chuva": 10.45, "razao_frequencia": 1.22, "pct_fatais_com_chuva": 5.43, "pct_fatais_sem_chuva": 6.36, "risco_relativo_fatal": 0.85, "qui2_p": 0.0, "letalidade_com_chuva": 6.59, "letalidade_sem_chuva": 7.28, "n_acidentes_com_clima": 297464}
+H5 {"pct_acidentes_urbanos": 43.4, "letalidade_urbano": 4.92, "letalidade_rural": 11.0, "pct_fatais_urbano": 4.58, "pct_fatais_rural": 9.16, "qui2_p": 0.0}
+H6 {"trechos": 6610, "pct_trechos_para_50pct_mortes": 15.5, "pct_trechos_para_80pct_mortes": 38.0, "pct_mortes_nos_5pct_piores_trechos": 24.4, "gini_mortes_por_trecho": 0.573}
+H7 {"acidentes_2021": 64567, "acidentes_2025": 72529, "var_acidentes_2021_2025_%": 12.3, "var_mortos_2021_2025_%": 12.0, "tendencia_acidentes_por_ano_2022_2025": 287.3, "p_acidentes": 1e-08, "tendencia_mortos_por_ano_2022_2025": 24.4, "p_mortos": 0.00051053}
+causalidade_carnaval {"por_ano": [{"ano": 2020, "festa": true, "acidentes": 1244, "esperado_acidentes": 1062.8, "indice_acidentes": 117.1, "mortos": 91, "esperado_mortos": 80.1, "indice_mortos": 113.6}, {"ano": 2021, "festa": false, "acidentes": 1091, "esperado_acidentes": 1041.9, "indice_acidentes": 104.7, "mortos": 90, "esperado_mortos": 82.1, "indice_mortos": 109.6}, {"ano": 2022, "festa": false, "acidentes": 1160, "esperado_acidentes": 1026.8, "indice_acidentes": 113.0, "mortos": 107, "esperado_mortos": 86.8, "indice_mortos": 123.3}, {"ano": 2023, "festa": true, "acidentes": 1113, "esperado_acidentes": 1050.8, "indice_acidentes": 105.9, "mortos": 80, "esperado_mortos": 83.9, "indice_mortos": 95.4}, {"ano": 2024, "festa": true, "acidentes": 1243, "esperado_acidentes": 1110.5, "indice_acidentes": 111.9, "mortos": 88, "esperado_mortos": 92.1, "indice_mortos": 95.5}, {"ano": 2025, "festa": true, "acidentes": 1190, "esperado_acidentes": 1147.2, "indice_acidentes": 103.7, "mortos": 85, "esperado_mortos": 89.6, "indice_mortos": 94.8}], "indice_acidentes_com_festa": 109.6, "indice_acidentes_sem_festa": 108.8, "indice_mortos_com_festa": 99.8, "indice_mortos_sem_festa": 116.4}
+preditiva_validacao_2025 {"acidentes": {"mae_modelo": 15.89, "mape_modelo_%": 8.0, "mae_ingenuo_media_2024_por_dia_semana": 16.83, "total_2025_real": 72529, "total_2025_previsto": 73414.0}, "mortos": {"mae_modelo": 4.02, "mape_modelo_%": 28.8, "mae_ingenuo_media_2024_por_dia_semana": 4.02, "total_2025_real": 6043, "total_2025_previsto": 6286.0}}
+logit pseudo R2 0.1027
+                                         odds_ratio  ic95_inf  ic95_sup      p
+Causa: Pedestre                               7.988     7.629     8.363  0.000
+Horário: Madrugada (00–05h)                   2.116     2.035     2.200  0.000
+Causa: Manobras e desrespeito às regras       1.993     1.928     2.059  0.000
+Pista: Simples                                1.839     1.788     1.892  0.000
+Horário: Noite (18–23h)                       1.612     1.560     1.666  0.000
+Causa: Velocidade                             1.444     1.379     1.512  0.000
+Chuva: Sem dado                               1.369     1.333     1.407  0.000
+Causa: Sono e condição de saúde               1.363     1.287     1.444  0.000
+Fim de semana                                 1.175     1.145     1.206  0.000
+Data especial (feriado etc.)                  1.006     0.968     1.047  0.750
+Pista: Múltipla                               0.974     0.919     1.033  0.386
+Horário: Manhã (06–11h)                       0.943     0.909     0.978  0.002
+Chuva: Moderada                               0.919     0.812     1.039  0.177
+Causa: Via e sinalização                      0.881     0.829     0.936  0.000
+Chuva: Fraca                                  0.870     0.820     0.924  0.000
+Chuva: Forte                                  0.846     0.695     1.030  0.096
+Causa: Clima e ambiente                       0.731     0.649     0.822  0.000
+Causa: Animais e obstáculos                   0.631     0.578     0.689  0.000
+Causa: Álcool e drogas (condutor)             0.618     0.580     0.658  0.000
+Trecho urbano                                 0.486     0.472     0.500  0.000
+Causa: Falha do veículo                       0.411     0.381     0.443  0.000
+Causa: Distância de segurança                 0.407     0.371     0.446  0.000
+                         acidentes  mortos  letalidade  pct_acidentes_com_chuva  temperatura_media  fim_de_semana  data_especial
+acidentes                     1.00    0.61        0.23                     0.01              -0.07           0.54           0.08
+mortos                        0.61    1.00        0.90                    -0.04              -0.09           0.53           0.10
+letalidade                    0.23    0.90        1.00                    -0.05              -0.08           0.37           0.07
+pct_acidentes_com_chuva       0.01   -0.04       -0.05                     1.00               0.14          -0.04           0.05
+temperatura_media            -0.07   -0.09       -0.08                     0.14               1.00          -0.08           0.06
+fim_de_semana                 0.54    0.53        0.37                    -0.04              -0.08           1.00           0.13
+data_especial                 0.08    0.10        0.07                     0.05               0.06           0.13           1.00
+{'pct_rural_x_letalidade': {'rho': 0.548, 'p': 0.00311}, 'pct_pista_simples_x_letalidade': {'rho': 0.673, 'p': 0.00012}, 'acidentes_100mil_x_mortos_100mil': {'rho': 0.734, 'p': 1e-05}}
+                             inicio        fim  dias  acidentes_previstos  mortos_previstos  mortos_por_dia
+grupo_evento                                                                                               
+Natal/Réveillon          2026-01-01 2026-12-31    10               2094.0             187.3            18.7
+Carnaval                 2026-02-13 2026-02-18     6               1235.8              93.7            15.6
+Semana Santa             2026-04-03 2026-04-05     3                621.3              55.6            18.5
+Tiradentes               2026-04-18 2026-04-21     4                822.6              74.0            18.5
+Dia do Trabalho          2026-05-01 2026-05-03     3                656.3              63.8            21.3
+Corpus Christi           2026-06-04 2026-06-07     4                848.6              76.3            19.1
+Independência            2026-09-05 2026-09-07     3                729.8              71.5            23.8
+N. Sra. Aparecida        2026-10-10 2026-10-12     3                731.9              70.3            23.4
+Finados                  2026-10-31 2026-11-02     3                720.4              69.0            23.0
+Proclamação da República 2026-11-15 2026-11-15     1                239.1              25.2            25.2
+Consciência Negra        2026-11-20 2026-11-22     3                681.8              62.9            21.0
+2026 total 74960.0 6351.0

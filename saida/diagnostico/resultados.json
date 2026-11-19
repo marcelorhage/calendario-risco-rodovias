@@ -1,0 +1,552 @@
+{
+ "H1": {
+  "feriado_em_dia_util_vs_dia_util_comum_acidentes": {
+   "media_grupo": 178.52,
+   "media_comparacao": 173.64,
+   "diferenca_%": 2.8,
+   "n_dias": [
+    73,
+    1444
+   ],
+   "mann_whitney_p": 0.150331
+  },
+  "feriado_em_dia_util_vs_dia_util_comum_mortos": {
+   "media_grupo": 15.4,
+   "media_comparacao": 13.12,
+   "diferenca_%": 17.3,
+   "n_dias": [
+    73,
+    1444
+   ],
+   "mann_whitney_p": 0.001455
+  },
+  "fds_de_feriadao_vs_fds_comum_acidentes": {
+   "media_grupo": 208.03,
+   "media_comparacao": 214.29,
+   "diferenca_%": -2.9,
+   "n_dias": [
+    103,
+    523
+   ],
+   "mann_whitney_p": 0.112951
+  },
+  "fds_de_feriadao_vs_fds_comum_mortos": {
+   "media_grupo": 19.61,
+   "media_comparacao": 21.33,
+   "diferenca_%": -8.1,
+   "n_dias": [
+    103,
+    523
+   ],
+   "mann_whitney_p": 0.013858
+  },
+  "letalidade_especial_vs_comum": {
+   "pct_fatais_especial": 7.58,
+   "pct_fatais_comum": 7.12,
+   "qui2_p": 0.00042513
+  },
+  "modelo_mortos_dia": {
+   "efeito_data_especial_%": 2.7,
+   "ic95_%": [
+    -2.1,
+    7.7
+   ],
+   "p": 0.28119
+  },
+  "modelo_acidentes_dia": {
+   "efeito_data_especial_%": -0.7,
+   "ic95_%": [
+    -3.0,
+    1.6
+   ],
+   "p": 0.538925
+  }
+ },
+ "H2": {
+  "pct_fatais_madrugada_fds": 11.24,
+  "pct_fatais_demais": 6.93,
+  "risco_relativo": 1.62,
+  "qui2_p": 0.0,
+  "letalidade_madrugada_fds": 13.21,
+  "letalidade_madrugada_dia_util": 13.12,
+  "pct_acidentes_madrugada_fds": 5.66,
+  "pct_mortos_madrugada_fds": 8.94,
+  "qui2_p_madrugada_fds_vs_madrugada_util": 0.94966
+ },
+ "H3": {
+  "pct_acidentes_pico": 36.0,
+  "pct_horas_pico": 25.0,
+  "letalidade_pico": 7.58,
+  "letalidade_fora_pico": 8.8,
+  "spearman_volume_letalidade": -0.677,
+  "spearman_p": 0.000284,
+  "hora_mais_acidentes": 18,
+  "hora_maior_letalidade": 3
+ },
+ "H4": {
+  "pct_horas_com_chuva_nas_estacoes": 8.54,
+  "pct_acidentes_com_chuva": 10.45,
+  "razao_frequencia": 1.22,
+  "pct_fatais_com_chuva": 5.43,
+  "pct_fatais_sem_chuva": 6.36,
+  "risco_relativo_fatal": 0.85,
+  "qui2_p": 0.0,
+  "letalidade_com_chuva": 6.59,
+  "letalidade_sem_chuva": 7.28,
+  "n_acidentes_com_clima": 297464
+ },
+ "H5": {
+  "pct_acidentes_urbanos": 43.4,
+  "letalidade_urbano": 4.92,
+  "letalidade_rural": 11.0,
+  "pct_fatais_urbano": 4.58,
+  "pct_fatais_rural": 9.16,
+  "qui2_p": 0.0
+ },
+ "H6": {
+  "trechos": 6610,
+  "pct_trechos_para_50pct_mortes": 15.5,
+  "pct_trechos_para_80pct_mortes": 38.0,
+  "pct_mortes_nos_5pct_piores_trechos": 24.4,
+  "gini_mortes_por_trecho": 0.573
+ },
+ "H7": {
+  "acidentes_2021": 64567,
+  "acidentes_2025": 72529,
+  "var_acidentes_2021_2025_%": 12.3,
+  "var_mortos_2021_2025_%": 12.0,
+  "tendencia_acidentes_por_ano_2022_2025": 287.3,
+  "p_acidentes": 1e-08,
+  "tendencia_mortos_por_ano_2022_2025": 24.4,
+  "p_mortos": 0.00051053
+ },
+ "logistica": {
+  "n": 406255,
+  "pseudo_r2": 0.1027,
+  "referencias": "Tarde (12–17h); pista dupla; causa = falta de atenção/reação; sem chuva; dia útil; rural",
+  "odds_ratios": [
+   {
+    "fator": "Causa: Pedestre",
+    "odds_ratio": 7.988,
+    "ic95_inf": 7.629,
+    "ic95_sup": 8.363,
+    "p": 0.0
+   },
+   {
+    "fator": "Horário: Madrugada (00–05h)",
+    "odds_ratio": 2.116,
+    "ic95_inf": 2.035,
+    "ic95_sup": 2.2,
+    "p": 0.0
+   },
+   {
+    "fator": "Causa: Manobras e desrespeito às regras",
+    "odds_ratio": 1.993,
+    "ic95_inf": 1.928,
+    "ic95_sup": 2.059,
+    "p": 0.0
+   },
+   {
+    "fator": "Pista: Simples",
+    "odds_ratio": 1.839,
+    "ic95_inf": 1.788,
+    "ic95_sup": 1.892,
+    "p": 0.0
+   },
+   {
+    "fator": "Horário: Noite (18–23h)",
+    "odds_ratio": 1.612,
+    "ic95_inf": 1.56,
+    "ic95_sup": 1.666,
+    "p": 0.0
+   },
+   {
+    "fator": "Causa: Velocidade",
+    "odds_ratio": 1.444,
+    "ic95_inf": 1.379,
+    "ic95_sup": 1.512,
+    "p": 0.0
+   },
+   {
+    "fator": "Chuva: Sem dado",
+    "odds_ratio": 1.369,
+    "ic95_inf": 1.333,
+    "ic95_sup": 1.407,
+    "p": 0.0
+   },
+   {
+    "fator": "Causa: Sono e condição de saúde",
+    "odds_ratio": 1.363,
+    "ic95_inf": 1.287,
+    "ic95_sup": 1.444,
+    "p": 0.0
+   },
+   {
+    "fator": "Fim de semana",
+    "odds_ratio": 1.175,
+    "ic95_inf": 1.145,
+    "ic95_sup": 1.206,
+    "p": 0.0
+   },
+   {
+    "fator": "Data especial (feriado etc.)",
+    "odds_ratio": 1.006,
+    "ic95_inf": 0.968,
+    "ic95_sup": 1.047,
+    "p": 0.75
+   },
+   {
+    "fator": "Pista: Múltipla",
+    "odds_ratio": 0.974,
+    "ic95_inf": 0.919,
+    "ic95_sup": 1.033,
+    "p": 0.386
+   },
+   {
+    "fator": "Horário: Manhã (06–11h)",
+    "odds_ratio": 0.943,
+    "ic95_inf": 0.909,
+    "ic95_sup": 0.978,
+    "p": 0.002
+   },
+   {
+    "fator": "Chuva: Moderada",
+    "odds_ratio": 0.919,
+    "ic95_inf": 0.812,
+    "ic95_sup": 1.039,
+    "p": 0.177
+   },
+   {
+    "fator": "Causa: Via e sinalização",
+    "odds_ratio": 0.881,
+    "ic95_inf": 0.829,
+    "ic95_sup": 0.936,
+    "p": 0.0
+   },
+   {
+    "fator": "Chuva: Fraca",
+    "odds_ratio": 0.87,
+    "ic95_inf": 0.82,
+    "ic95_sup": 0.924,
+    "p": 0.0
+   },
+   {
+    "fator": "Chuva: Forte",
+    "odds_ratio": 0.846,
+    "ic95_inf": 0.695,
+    "ic95_sup": 1.03,
+    "p": 0.096
+   },
+   {
+    "fator": "Causa: Clima e ambiente",
+    "odds_ratio": 0.731,
+    "ic95_inf": 0.649,
+    "ic95_sup": 0.822,
+    "p": 0.0
+   },
+   {
+    "fator": "Causa: Animais e obstáculos",
+    "odds_ratio": 0.631,
+    "ic95_inf": 0.578,
+    "ic95_sup": 0.689,
+    "p": 0.0
+   },
+   {
+    "fator": "Causa: Álcool e drogas (condutor)",
+    "odds_ratio": 0.618,
+    "ic95_inf": 0.58,
+    "ic95_sup": 0.658,
+    "p": 0.0
+   },
+   {
+    "fator": "Trecho urbano",
+    "odds_ratio": 0.486,
+    "ic95_inf": 0.472,
+    "ic95_sup": 0.5,
+    "p": 0.0
+   },
+   {
+    "fator": "Causa: Falha do veículo",
+    "odds_ratio": 0.411,
+    "ic95_inf": 0.381,
+    "ic95_sup": 0.443,
+    "p": 0.0
+   },
+   {
+    "fator": "Causa: Distância de segurança",
+    "odds_ratio": 0.407,
+    "ic95_inf": 0.371,
+    "ic95_sup": 0.446,
+    "p": 0.0
+   }
+  ]
+ },
+ "correlacao_diaria_spearman": {
+  "acidentes": {
+   "acidentes": 1.0,
+   "mortos": 0.607,
+   "letalidade": 0.231,
+   "pct_acidentes_com_chuva": 0.012,
+   "temperatura_media": -0.068,
+   "fim_de_semana": 0.538,
+   "data_especial": 0.079
+  },
+  "mortos": {
+   "acidentes": 0.607,
+   "mortos": 1.0,
+   "letalidade": 0.9,
+   "pct_acidentes_com_chuva": -0.036,
+   "temperatura_media": -0.093,
+   "fim_de_semana": 0.528,
+   "data_especial": 0.096
+  },
+  "letalidade": {
+   "acidentes": 0.231,
+   "mortos": 0.9,
+   "letalidade": 1.0,
+   "pct_acidentes_com_chuva": -0.054,
+   "temperatura_media": -0.085,
+   "fim_de_semana": 0.37,
+   "data_especial": 0.069
+  },
+  "pct_acidentes_com_chuva": {
+   "acidentes": 0.012,
+   "mortos": -0.036,
+   "letalidade": -0.054,
+   "pct_acidentes_com_chuva": 1.0,
+   "temperatura_media": 0.135,
+   "fim_de_semana": -0.044,
+   "data_especial": 0.046
+  },
+  "temperatura_media": {
+   "acidentes": -0.068,
+   "mortos": -0.093,
+   "letalidade": -0.085,
+   "pct_acidentes_com_chuva": 0.135,
+   "temperatura_media": 1.0,
+   "fim_de_semana": -0.076,
+   "data_especial": 0.055
+  },
+  "fim_de_semana": {
+   "acidentes": 0.538,
+   "mortos": 0.528,
+   "letalidade": 0.37,
+   "pct_acidentes_com_chuva": -0.044,
+   "temperatura_media": -0.076,
+   "fim_de_semana": 1.0,
+   "data_especial": 0.129
+  },
+  "data_especial": {
+   "acidentes": 0.079,
+   "mortos": 0.096,
+   "letalidade": 0.069,
+   "pct_acidentes_com_chuva": 0.046,
+   "temperatura_media": 0.055,
+   "fim_de_semana": 0.129,
+   "data_especial": 1.0
+  }
+ },
+ "correlacao_uf_spearman": {
+  "pct_rural_x_letalidade": {
+   "rho": 0.548,
+   "p": 0.00311
+  },
+  "pct_pista_simples_x_letalidade": {
+   "rho": 0.673,
+   "p": 0.00012
+  },
+  "acidentes_100mil_x_mortos_100mil": {
+   "rho": 0.734,
+   "p": 1e-05
+  }
+ },
+ "causalidade_carnaval": {
+  "por_ano": [
+   {
+    "ano": 2020,
+    "festa": true,
+    "acidentes": 1244,
+    "esperado_acidentes": 1062.8,
+    "indice_acidentes": 117.1,
+    "mortos": 91,
+    "esperado_mortos": 80.1,
+    "indice_mortos": 113.6
+   },
+   {
+    "ano": 2021,
+    "festa": false,
+    "acidentes": 1091,
+    "esperado_acidentes": 1041.9,
+    "indice_acidentes": 104.7,
+    "mortos": 90,
+    "esperado_mortos": 82.1,
+    "indice_mortos": 109.6
+   },
+   {
+    "ano": 2022,
+    "festa": false,
+    "acidentes": 1160,
+    "esperado_acidentes": 1026.8,
+    "indice_acidentes": 113.0,
+    "mortos": 107,
+    "esperado_mortos": 86.8,
+    "indice_mortos": 123.3
+   },
+   {
+    "ano": 2023,
+    "festa": true,
+    "acidentes": 1113,
+    "esperado_acidentes": 1050.8,
+    "indice_acidentes": 105.9,
+    "mortos": 80,
+    "esperado_mortos": 83.9,
+    "indice_mortos": 95.4
+   },
+   {
+    "ano": 2024,
+    "festa": true,
+    "acidentes": 1243,
+    "esperado_acidentes": 1110.5,
+    "indice_acidentes": 111.9,
+    "mortos": 88,
+    "esperado_mortos": 92.1,
+    "indice_mortos": 95.5
+   },
+   {
+    "ano": 2025,
+    "festa": true,
+    "acidentes": 1190,
+    "esperado_acidentes": 1147.2,
+    "indice_acidentes": 103.7,
+    "mortos": 85,
+    "esperado_mortos": 89.6,
+    "indice_mortos": 94.8
+   }
+  ],
+  "indice_acidentes_com_festa": 109.6,
+  "indice_acidentes_sem_festa": 108.8,
+  "indice_mortos_com_festa": 99.8,
+  "indice_mortos_sem_festa": 116.4
+ },
+ "preditiva_validacao_2025": {
+  "acidentes": {
+   "mae_modelo": 15.89,
+   "mape_modelo_%": 8.0,
+   "mae_ingenuo_media_2024_por_dia_semana": 16.83,
+   "total_2025_real": 72529,
+   "total_2025_previsto": 73414.0
+  },
+  "mortos": {
+   "mae_modelo": 4.02,
+   "mape_modelo_%": 28.8,
+   "mae_ingenuo_media_2024_por_dia_semana": 4.02,
+   "total_2025_real": 6043,
+   "total_2025_previsto": 6286.0
+  }
+ },
+ "previsao_2026": {
+  "acidentes_ano": 74960.0,
+  "mortos_ano": 6351.0,
+  "feriados": [
+   {
+    "grupo_evento": "Natal/Réveillon",
+    "inicio": "2026-01-01",
+    "fim": "2026-12-31",
+    "dias": 10,
+    "acidentes_previstos": 2094.0,
+    "mortos_previstos": 187.3,
+    "mortos_por_dia": 18.7
+   },
+   {
+    "grupo_evento": "Carnaval",
+    "inicio": "2026-02-13",
+    "fim": "2026-02-18",
+    "dias": 6,
+    "acidentes_previstos": 1235.8,
+    "mortos_previstos": 93.7,
+    "mortos_por_dia": 15.6
+   },
+   {
+    "grupo_evento": "Semana Santa",
+    "inicio": "2026-04-03",
+    "fim": "2026-04-05",
+    "dias": 3,
+    "acidentes_previstos": 621.3,
+    "mortos_previstos": 55.6,
+    "mortos_por_dia": 18.5
+   },
+   {
+    "grupo_evento": "Tiradentes",
+    "inicio": "2026-04-18",
+    "fim": "2026-04-21",
+    "dias": 4,
+    "acidentes_previstos": 822.6,
+    "mortos_previstos": 74.0,
+    "mortos_por_dia": 18.5
+   },
+   {
+    "grupo_evento": "Dia do Trabalho",
+    "inicio": "2026-05-01",
+    "fim": "2026-05-03",
+    "dias": 3,
+    "acidentes_previstos": 656.3,
+    "mortos_previstos": 63.8,
+    "mortos_por_dia": 21.3
+   },
+   {
+    "grupo_evento": "Corpus Christi",
+    "inicio": "2026-06-04",
+    "fim": "2026-06-07",
+    "dias": 4,
+    "acidentes_previstos": 848.6,
+    "mortos_previstos": 76.3,
+    "mortos_por_dia": 19.1
+   },
+   {
+    "grupo_evento": "Independência",
+    "inicio": "2026-09-05",
+    "fim": "2026-09-07",
+    "dias": 3,
+    "acidentes_previstos": 729.8,
+    "mortos_previstos": 71.5,
+    "mortos_por_dia": 23.8
+   },
+   {
+    "grupo_evento": "N. Sra. Aparecida",
+    "inicio": "2026-10-10",
+    "fim": "2026-10-12",
+    "dias": 3,
+    "acidentes_previstos": 731.9,
+    "mortos_previstos": 70.3,
+    "mortos_por_dia": 23.4
+   },
+   {
+    "grupo_evento": "Finados",
+    "inicio": "2026-10-31",
+    "fim": "2026-11-02",
+    "dias": 3,
+    "acidentes_previstos": 720.4,
+    "mortos_previstos": 69.0,
+    "mortos_por_dia": 23.0
+   },
+   {
+    "grupo_evento": "Proclamação da República",
+    "inicio": "2026-11-15",
+    "fim": "2026-11-15",
+    "dias": 1,
+    "acidentes_previstos": 239.1,
+    "mortos_previstos": 25.2,
+    "mortos_por_dia": 25.2
+   },
+   {
+    "grupo_evento": "Consciência Negra",
+    "inicio": "2026-11-20",
+    "fim": "2026-11-22",
+    "dias": 3,
+    "acidentes_previstos": 681.8,
+    "mortos_previstos": 62.9,
+    "mortos_por_dia": 21.0
+   }
+  ]
+ }
+}

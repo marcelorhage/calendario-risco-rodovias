@@ -1,0 +1,12 @@
+variavel,n,media,mediana,q1,q3,minimo,maximo,desvio_padrao,coef_variacao_%,assimetria
+Acidentes por dia,2192,185.335,183.0,161.0,208.0,70.0,321.0,33.183,17.904,0.282
+Mortos por dia,2192,15.494,14.0,11.0,19.0,2.0,63.0,6.493,41.907,0.923
+Feridos graves por dia,2192,51.248,50.0,40.0,60.0,13.0,110.0,14.716,28.715,0.508
+Letalidade diária (mortos/100 acidentes),2192,8.252,8.0,6.286,10.0,1.22,22.018,2.798,33.912,0.608
+Pessoas envolvidas por acidente,406255,2.558,2.0,2.0,3.0,1.0,95.0,2.11,82.499,11.168
+Veículos por acidente,406255,1.98,2.0,1.0,2.0,1.0,131.0,1.111,56.128,7.484
+Mortos por acidente,406255,0.084,0.0,0.0,0.0,0.0,37.0,0.344,411.145,10.233
+Feridos por acidente,406255,1.14,1.0,1.0,1.0,0.0,85.0,1.185,103.995,10.506
+Chuva na hora do acidente (mm),297464,0.248,0.0,0.0,0.0,0.0,77.2,1.639,662.122,14.193
+Temperatura na hora do acidente (°C),295364,22.615,22.8,19.1,26.4,-3.6,43.1,5.514,24.383,-0.255
+Distância até a estação do INMET (km),297464,19.972,16.957,9.007,29.682,0.044,49.998,13.291,66.549,0.575

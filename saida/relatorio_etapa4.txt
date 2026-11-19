@@ -1,0 +1,30 @@
+[entrada] acidentes: 406,255
+[clima] 2020: estações ativas=563 | acidentes com clima=77.0% | distância mediana=17.1 km
+[clima] 2021: estações ativas=467 | acidentes com clima=65.5% | distância mediana=16.8 km
+[clima] 2022: estações ativas=526 | acidentes com clima=72.7% | distância mediana=16.6 km
+[clima] 2023: estações ativas=539 | acidentes com clima=79.1% | distância mediana=16.5 km
+[clima] 2024: estações ativas=522 | acidentes com clima=76.0% | distância mediana=17.3 km
+[clima] 2025: estações ativas=485 | acidentes com clima=68.9% | distância mediana=17.7 km
+[carga] registros: 406,255 | colunas: 63
+[verificação] ids únicos: True
+[verificação] acidentes com dado de clima: 297,464 (73.2%)
+[verificação] distância à estação (km): {'count': 297464.0, 'mean': 20.0, 'std': 13.3, 'min': 0.0, '25%': 9.0, '50%': 17.0, '75%': 29.7, 'max': 50.0}
+[verificação] concordância PRF x INMET (linhas = PRF registrou chuva; colunas = INMET mediu chuva > 0):
+choveu               False  True 
+prf_registrou_chuva              
+False                0.963  0.037
+True                 0.485  0.515
+[verificação] idem, considerando chuva nas 3 últimas horas:
+choveu_3h            False  True 
+prf_registrou_chuva              
+False                0.914  0.086
+True                 0.314  0.686
+[verificação] por ano:
+      acidentes  mortos  com_clima
+ano                               
+2020      63585    5292   0.770370
+2021      64567    5397   0.655025
+2022      64606    5441   0.727363
+2023      67766    5627   0.791341
+2024      73202    6163   0.759556
+2025      72529    6043   0.688938

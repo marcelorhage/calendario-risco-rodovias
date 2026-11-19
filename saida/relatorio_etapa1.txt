@@ -1,0 +1,65 @@
+[extração] datatran2020.csv: 63,585 linhas, 30 colunas
+[extração] datatran2021.csv: 64,567 linhas, 30 colunas
+[extração] datatran2022.csv: 64,606 linhas, 30 colunas
+[extração] datatran2023.csv: 67,766 linhas, 30 colunas
+[extração] datatran2024.csv: 73,202 linhas, 30 colunas
+[extração] datatran2025.csv: 72,529 linhas, 30 colunas
+[extração] total bruto: 406,255
+[qualidade] ids duplicados: 0
+[qualidade] datas inválidas: 0
+[qualidade] horários inválidos: 0
+[qualidade] coordenadas ausentes/fora do Brasil (anuladas): 0
+[qualidade] registros com soma de vítimas diferente de "pessoas": 21,881 (mantidos)
+[qualidade] classificação ausente: 7 (reconstruída a partir de mortos/feridos)
+[harmonização] causas sem grupo: {}
+[carga] registros finais: 406,255 de 406,255 | colunas: 52
+[verificação] acidentes e mortos por ano:
+      acidentes  mortos
+ano                    
+2020      63585    5292
+2021      64567    5397
+2022      64606    5441
+2023      67766    5627
+2024      73202    6163
+2025      72529    6043
+[verificação] tipo_dia:
+tipo_dia
+Dia útil comum         250412
+Fim de semana comum    111781
+Feriadão                16202
+Feriado                 10925
+Período festivo         10628
+Ponto facultativo        6307
+[verificação] grupo_causa:
+grupo_causa
+Falta de atenção / reação do condutor    147825
+Manobras e desrespeito às regras          75571
+Velocidade                                30380
+Falha do veículo                          29652
+Distância de segurança                    26229
+Álcool e drogas (condutor)                25700
+Via e sinalização                         23204
+Sono e condição de saúde                  16877
+Pedestre                                  13181
+Animais e obstáculos                      10885
+Clima e ambiente                           6751
+[verificação] dias_ate_feriado:
+dias_ate_feriado
+-3       12371
+-2       13271
+-1       13461
+0        13661
+1        12142
+2        11951
+3        11811
+<NA>    317587
+[verificação] nulos por coluna (> 0):
+evento                       362193
+dias_ate_feriado             317587
+tipo_acidente                     1
+tipo_acidente_padronizado         1
+sentido_via                    1048
+condicao_metereologica         5295
+regional                         15
+delegacia                        15
+uop                              15

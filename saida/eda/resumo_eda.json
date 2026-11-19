@@ -1,0 +1,1140 @@
+{
+ "descritiva": [
+  {
+   "variavel": "Acidentes por dia",
+   "n": 2192,
+   "media": 185.335,
+   "mediana": 183.0,
+   "q1": 161.0,
+   "q3": 208.0,
+   "minimo": 70.0,
+   "maximo": 321.0,
+   "desvio_padrao": 33.183,
+   "coef_variacao_%": 17.904,
+   "assimetria": 0.282
+  },
+  {
+   "variavel": "Mortos por dia",
+   "n": 2192,
+   "media": 15.494,
+   "mediana": 14.0,
+   "q1": 11.0,
+   "q3": 19.0,
+   "minimo": 2.0,
+   "maximo": 63.0,
+   "desvio_padrao": 6.493,
+   "coef_variacao_%": 41.907,
+   "assimetria": 0.923
+  },
+  {
+   "variavel": "Feridos graves por dia",
+   "n": 2192,
+   "media": 51.248,
+   "mediana": 50.0,
+   "q1": 40.0,
+   "q3": 60.0,
+   "minimo": 13.0,
+   "maximo": 110.0,
+   "desvio_padrao": 14.716,
+   "coef_variacao_%": 28.715,
+   "assimetria": 0.508
+  },
+  {
+   "variavel": "Letalidade diária (mortos/100 acidentes)",
+   "n": 2192,
+   "media": 8.252,
+   "mediana": 8.0,
+   "q1": 6.286,
+   "q3": 10.0,
+   "minimo": 1.22,
+   "maximo": 22.018,
+   "desvio_padrao": 2.798,
+   "coef_variacao_%": 33.912,
+   "assimetria": 0.608
+  },
+  {
+   "variavel": "Pessoas envolvidas por acidente",
+   "n": 406255,
+   "media": 2.558,
+   "mediana": 2.0,
+   "q1": 2.0,
+   "q3": 3.0,
+   "minimo": 1.0,
+   "maximo": 95.0,
+   "desvio_padrao": 2.11,
+   "coef_variacao_%": 82.499,
+   "assimetria": 11.168
+  },
+  {
+   "variavel": "Veículos por acidente",
+   "n": 406255,
+   "media": 1.98,
+   "mediana": 2.0,
+   "q1": 1.0,
+   "q3": 2.0,
+   "minimo": 1.0,
+   "maximo": 131.0,
+   "desvio_padrao": 1.111,
+   "coef_variacao_%": 56.128,
+   "assimetria": 7.484
+  },
+  {
+   "variavel": "Mortos por acidente",
+   "n": 406255,
+   "media": 0.084,
+   "mediana": 0.0,
+   "q1": 0.0,
+   "q3": 0.0,
+   "minimo": 0.0,
+   "maximo": 37.0,
+   "desvio_padrao": 0.344,
+   "coef_variacao_%": 411.145,
+   "assimetria": 10.233
+  },
+  {
+   "variavel": "Feridos por acidente",
+   "n": 406255,
+   "media": 1.14,
+   "mediana": 1.0,
+   "q1": 1.0,
+   "q3": 1.0,
+   "minimo": 0.0,
+   "maximo": 85.0,
+   "desvio_padrao": 1.185,
+   "coef_variacao_%": 103.995,
+   "assimetria": 10.506
+  },
+  {
+   "variavel": "Chuva na hora do acidente (mm)",
+   "n": 297464,
+   "media": 0.248,
+   "mediana": 0.0,
+   "q1": 0.0,
+   "q3": 0.0,
+   "minimo": 0.0,
+   "maximo": 77.2,
+   "desvio_padrao": 1.639,
+   "coef_variacao_%": 662.122,
+   "assimetria": 14.193
+  },
+  {
+   "variavel": "Temperatura na hora do acidente (°C)",
+   "n": 295364,
+   "media": 22.615,
+   "mediana": 22.8,
+   "q1": 19.1,
+   "q3": 26.4,
+   "minimo": -3.6,
+   "maximo": 43.1,
+   "desvio_padrao": 5.514,
+   "coef_variacao_%": 24.383,
+   "assimetria": -0.255
+  },
+  {
+   "variavel": "Distância até a estação do INMET (km)",
+   "n": 297464,
+   "media": 19.972,
+   "mediana": 16.957,
+   "q1": 9.007,
+   "q3": 29.682,
+   "minimo": 0.044,
+   "maximo": 49.998,
+   "desvio_padrao": 13.291,
+   "coef_variacao_%": 66.549,
+   "assimetria": 0.575
+  }
+ ],
+ "dia_recorde": {
+  "data": "2024-12-21",
+  "acidentes": 321
+ },
+ "dia_mais_mortes": {
+  "data": "2024-12-21",
+  "mortos": 63
+ },
+ "por_ano": [
+  {
+   "ano": 2020,
+   "acidentes": 63585,
+   "mortos": 5292,
+   "feridos_graves": 17134,
+   "acidentes_fatais": 4525,
+   "letalidade": 8.32,
+   "mortos_100mil": 2.5,
+   "var_acidentes_%": null
+  },
+  {
+   "ano": 2021,
+   "acidentes": 64567,
+   "mortos": 5397,
+   "feridos_graves": 17681,
+   "acidentes_fatais": 4665,
+   "letalidade": 8.36,
+   "mortos_100mil": 2.53,
+   "var_acidentes_%": 1.54
+  },
+  {
+   "ano": 2022,
+   "acidentes": 64606,
+   "mortos": 5441,
+   "feridos_graves": 18173,
+   "acidentes_fatais": 4664,
+   "letalidade": 8.42,
+   "mortos_100mil": 2.68,
+   "var_acidentes_%": 0.06
+  },
+  {
+   "ano": 2023,
+   "acidentes": 67766,
+   "mortos": 5627,
+   "feridos_graves": 18958,
+   "acidentes_fatais": 4858,
+   "letalidade": 8.3,
+   "mortos_100mil": 2.71,
+   "var_acidentes_%": 4.89
+  },
+  {
+   "ano": 2024,
+   "acidentes": 73202,
+   "mortos": 6163,
+   "feridos_graves": 20372,
+   "acidentes_fatais": 5225,
+   "letalidade": 8.42,
+   "mortos_100mil": 2.9,
+   "var_acidentes_%": 8.02
+  },
+  {
+   "ano": 2025,
+   "acidentes": 72529,
+   "mortos": 6043,
+   "feridos_graves": 20018,
+   "acidentes_fatais": 5210,
+   "letalidade": 8.33,
+   "mortos_100mil": 2.83,
+   "var_acidentes_%": -0.92
+  }
+ ],
+ "por_tipo_dia": [
+  {
+   "tipo_dia": "Fim de semana comum",
+   "acidentes": 111781,
+   "mortos": 11115,
+   "dias": 523,
+   "acidentes_por_dia": 213.73,
+   "mortos_por_dia": 21.25,
+   "letalidade": 9.94
+  },
+  {
+   "tipo_dia": "Feriadão",
+   "acidentes": 16202,
+   "mortos": 1511,
+   "dias": 87,
+   "acidentes_por_dia": 186.23,
+   "mortos_por_dia": 17.37,
+   "letalidade": 9.33
+  },
+  {
+   "tipo_dia": "Período festivo",
+   "acidentes": 10628,
+   "mortos": 882,
+   "dias": 54,
+   "acidentes_por_dia": 196.81,
+   "mortos_por_dia": 16.33,
+   "letalidade": 8.3
+  },
+  {
+   "tipo_dia": "Feriado",
+   "acidentes": 10925,
+   "mortos": 1005,
+   "dias": 62,
+   "acidentes_por_dia": 176.21,
+   "mortos_por_dia": 16.21,
+   "letalidade": 9.2
+  },
+  {
+   "tipo_dia": "Ponto facultativo",
+   "acidentes": 6307,
+   "mortos": 536,
+   "dias": 36,
+   "acidentes_por_dia": 175.19,
+   "mortos_por_dia": 14.89,
+   "letalidade": 8.5
+  },
+  {
+   "tipo_dia": "Dia útil comum",
+   "acidentes": 250412,
+   "mortos": 18914,
+   "dias": 1444,
+   "acidentes_por_dia": 173.42,
+   "mortos_por_dia": 13.1,
+   "letalidade": 7.55
+  }
+ ],
+ "por_evento": [
+  {
+   "grupo_evento": "Independência",
+   "acidentes": 3043,
+   "mortos": 301,
+   "dias": 14,
+   "acidentes_por_dia": 217.36,
+   "mortos_por_dia": 21.5,
+   "letalidade": 9.89
+  },
+  {
+   "grupo_evento": "Corpus Christi",
+   "acidentes": 4608,
+   "mortos": 469,
+   "dias": 24,
+   "acidentes_por_dia": 192.0,
+   "mortos_por_dia": 19.54,
+   "letalidade": 10.18
+  },
+  {
+   "grupo_evento": "N. Sra. Aparecida",
+   "acidentes": 3071,
+   "mortos": 270,
+   "dias": 14,
+   "acidentes_por_dia": 219.36,
+   "mortos_por_dia": 19.29,
+   "letalidade": 8.79
+  },
+  {
+   "grupo_evento": "Consciência Negra",
+   "acidentes": 1027,
+   "mortos": 96,
+   "dias": 5,
+   "acidentes_por_dia": 205.4,
+   "mortos_por_dia": 19.2,
+   "letalidade": 9.35
+  },
+  {
+   "grupo_evento": "Finados",
+   "acidentes": 2754,
+   "mortos": 253,
+   "dias": 14,
+   "acidentes_por_dia": 196.71,
+   "mortos_por_dia": 18.07,
+   "letalidade": 9.19
+  },
+  {
+   "grupo_evento": "Tiradentes",
+   "acidentes": 2449,
+   "mortos": 244,
+   "dias": 14,
+   "acidentes_por_dia": 174.93,
+   "mortos_por_dia": 17.43,
+   "letalidade": 9.96
+  },
+  {
+   "grupo_evento": "Proclamação da República",
+   "acidentes": 2751,
+   "mortos": 224,
+   "dias": 13,
+   "acidentes_por_dia": 211.62,
+   "mortos_por_dia": 17.23,
+   "letalidade": 8.14
+  },
+  {
+   "grupo_evento": "Natal/Réveillon",
+   "acidentes": 11143,
+   "mortos": 998,
+   "dias": 60,
+   "acidentes_por_dia": 185.72,
+   "mortos_por_dia": 16.63,
+   "letalidade": 8.96
+  },
+  {
+   "grupo_evento": "Dia do Trabalho",
+   "acidentes": 2369,
+   "mortos": 212,
+   "dias": 13,
+   "acidentes_por_dia": 182.23,
+   "mortos_por_dia": 16.31,
+   "letalidade": 8.95
+  },
+  {
+   "grupo_evento": "Carnaval",
+   "acidentes": 7041,
+   "mortos": 541,
+   "dias": 36,
+   "acidentes_por_dia": 195.58,
+   "mortos_por_dia": 15.03,
+   "letalidade": 7.68
+  },
+  {
+   "grupo_evento": "Semana Santa",
+   "acidentes": 3188,
+   "mortos": 253,
+   "dias": 18,
+   "acidentes_por_dia": 177.11,
+   "mortos_por_dia": 14.06,
+   "letalidade": 7.94
+  },
+  {
+   "grupo_evento": "São João",
+   "acidentes": 618,
+   "mortos": 73,
+   "dias": 14,
+   "acidentes_por_dia": 44.14,
+   "mortos_por_dia": 5.21,
+   "letalidade": 11.81
+  }
+ ],
+ "por_hora": [
+  {
+   "hora": 0,
+   "acidentes": 8698,
+   "mortos": 1039,
+   "letalidade": 11.95
+  },
+  {
+   "hora": 1,
+   "acidentes": 7636,
+   "mortos": 938,
+   "letalidade": 12.28
+  },
+  {
+   "hora": 2,
+   "acidentes": 6865,
+   "mortos": 930,
+   "letalidade": 13.55
+  },
+  {
+   "hora": 3,
+   "acidentes": 7201,
+   "mortos": 1106,
+   "letalidade": 15.36
+  },
+  {
+   "hora": 4,
+   "acidentes": 8818,
+   "mortos": 1186,
+   "letalidade": 13.45
+  },
+  {
+   "hora": 5,
+   "acidentes": 12070,
+   "mortos": 1549,
+   "letalidade": 12.83
+  },
+  {
+   "hora": 6,
+   "acidentes": 17596,
+   "mortos": 1510,
+   "letalidade": 8.58
+  },
+  {
+   "hora": 7,
+   "acidentes": 24525,
+   "mortos": 1275,
+   "letalidade": 5.2
+  },
+  {
+   "hora": 8,
+   "acidentes": 20166,
+   "mortos": 997,
+   "letalidade": 4.94
+  },
+  {
+   "hora": 9,
+   "acidentes": 16798,
+   "mortos": 919,
+   "letalidade": 5.47
+  },
+  {
+   "hora": 10,
+   "acidentes": 16877,
+   "mortos": 960,
+   "letalidade": 5.69
+  },
+  {
+   "hora": 11,
+   "acidentes": 17698,
+   "mortos": 1087,
+   "letalidade": 6.14
+  },
+  {
+   "hora": 12,
+   "acidentes": 16864,
+   "mortos": 1056,
+   "letalidade": 6.26
+  },
+  {
+   "hora": 13,
+   "acidentes": 17472,
+   "mortos": 1118,
+   "letalidade": 6.4
+  },
+  {
+   "hora": 14,
+   "acidentes": 19293,
+   "mortos": 1320,
+   "letalidade": 6.84
+  },
+  {
+   "hora": 15,
+   "acidentes": 20878,
+   "mortos": 1451,
+   "letalidade": 6.95
+  },
+  {
+   "hora": 16,
+   "acidentes": 22837,
+   "mortos": 1376,
+   "letalidade": 6.03
+  },
+  {
+   "hora": 17,
+   "acidentes": 26999,
+   "mortos": 1709,
+   "letalidade": 6.33
+  },
+  {
+   "hora": 18,
+   "acidentes": 30564,
+   "mortos": 2705,
+   "letalidade": 8.85
+  },
+  {
+   "hora": 19,
+   "acidentes": 26456,
+   "mortos": 2890,
+   "letalidade": 10.92
+  },
+  {
+   "hora": 20,
+   "acidentes": 19378,
+   "mortos": 2154,
+   "letalidade": 11.12
+  },
+  {
+   "hora": 21,
+   "acidentes": 15841,
+   "mortos": 1787,
+   "letalidade": 11.28
+  },
+  {
+   "hora": 22,
+   "acidentes": 13653,
+   "mortos": 1547,
+   "letalidade": 11.33
+  },
+  {
+   "hora": 23,
+   "acidentes": 11072,
+   "mortos": 1354,
+   "letalidade": 12.23
+  }
+ ],
+ "por_grupo_causa": [
+  {
+   "grupo_causa": "Manobras e desrespeito às regras",
+   "acidentes": 75571,
+   "mortos": 9817,
+   "letalidade": 12.99,
+   "%_acidentes": 18.6,
+   "%_mortos": 28.9
+  },
+  {
+   "grupo_causa": "Falta de atenção / reação do condutor",
+   "acidentes": 147825,
+   "mortos": 9303,
+   "letalidade": 6.29,
+   "%_acidentes": 36.39,
+   "%_mortos": 27.39
+  },
+  {
+   "grupo_causa": "Pedestre",
+   "acidentes": 13181,
+   "mortos": 4016,
+   "letalidade": 30.47,
+   "%_acidentes": 3.24,
+   "%_mortos": 11.82
+  },
+  {
+   "grupo_causa": "Velocidade",
+   "acidentes": 30380,
+   "mortos": 3296,
+   "letalidade": 10.85,
+   "%_acidentes": 7.48,
+   "%_mortos": 9.7
+  },
+  {
+   "grupo_causa": "Sono e condição de saúde",
+   "acidentes": 16877,
+   "mortos": 1965,
+   "letalidade": 11.64,
+   "%_acidentes": 4.15,
+   "%_mortos": 5.79
+  },
+  {
+   "grupo_causa": "Via e sinalização",
+   "acidentes": 23204,
+   "mortos": 1600,
+   "letalidade": 6.9,
+   "%_acidentes": 5.71,
+   "%_mortos": 4.71
+  },
+  {
+   "grupo_causa": "Álcool e drogas (condutor)",
+   "acidentes": 25700,
+   "mortos": 1391,
+   "letalidade": 5.41,
+   "%_acidentes": 6.33,
+   "%_mortos": 4.1
+  },
+  {
+   "grupo_causa": "Falha do veículo",
+   "acidentes": 29652,
+   "mortos": 987,
+   "letalidade": 3.33,
+   "%_acidentes": 7.3,
+   "%_mortos": 2.91
+  },
+  {
+   "grupo_causa": "Animais e obstáculos",
+   "acidentes": 10885,
+   "mortos": 644,
+   "letalidade": 5.92,
+   "%_acidentes": 2.68,
+   "%_mortos": 1.9
+  },
+  {
+   "grupo_causa": "Distância de segurança",
+   "acidentes": 26229,
+   "mortos": 562,
+   "letalidade": 2.14,
+   "%_acidentes": 6.46,
+   "%_mortos": 1.65
+  },
+  {
+   "grupo_causa": "Clima e ambiente",
+   "acidentes": 6751,
+   "mortos": 382,
+   "letalidade": 5.66,
+   "%_acidentes": 1.66,
+   "%_mortos": 1.12
+  }
+ ],
+ "por_tipo_acidente": [
+  {
+   "tipo_acidente_padronizado": "Colisão frontal",
+   "acidentes": 27476,
+   "mortos": 10610,
+   "letalidade": 38.62
+  },
+  {
+   "tipo_acidente_padronizado": "Atropelamento de Pedestre",
+   "acidentes": 18161,
+   "mortos": 5363,
+   "letalidade": 29.53
+  },
+  {
+   "tipo_acidente_padronizado": "Saída de leito carroçável",
+   "acidentes": 62901,
+   "mortos": 4126,
+   "letalidade": 6.56
+  },
+  {
+   "tipo_acidente_padronizado": "Colisão traseira",
+   "acidentes": 77104,
+   "mortos": 3655,
+   "letalidade": 4.74
+  },
+  {
+   "tipo_acidente_padronizado": "Colisão transversal",
+   "acidentes": 51016,
+   "mortos": 2658,
+   "letalidade": 5.21
+  },
+  {
+   "tipo_acidente_padronizado": "Colisão lateral",
+   "acidentes": 52326,
+   "mortos": 2378,
+   "letalidade": 4.54
+  },
+  {
+   "tipo_acidente_padronizado": "Colisão com objeto",
+   "acidentes": 29935,
+   "mortos": 1764,
+   "letalidade": 5.89
+  },
+  {
+   "tipo_acidente_padronizado": "Tombamento",
+   "acidentes": 35152,
+   "mortos": 1621,
+   "letalidade": 4.61
+  },
+  {
+   "tipo_acidente_padronizado": "Queda de ocupante de veículo",
+   "acidentes": 18059,
+   "mortos": 575,
+   "letalidade": 3.18
+  },
+  {
+   "tipo_acidente_padronizado": "Atropelamento de Animal",
+   "acidentes": 6758,
+   "mortos": 455,
+   "letalidade": 6.73
+  },
+  {
+   "tipo_acidente_padronizado": "Capotamento",
+   "acidentes": 9520,
+   "mortos": 392,
+   "letalidade": 4.12
+  },
+  {
+   "tipo_acidente_padronizado": "Engavetamento",
+   "acidentes": 6677,
+   "mortos": 212,
+   "letalidade": 3.18
+  },
+  {
+   "tipo_acidente_padronizado": "Eventos atípicos",
+   "acidentes": 1482,
+   "mortos": 114,
+   "letalidade": 7.69
+  },
+  {
+   "tipo_acidente_padronizado": "Derramamento de carga",
+   "acidentes": 830,
+   "mortos": 25,
+   "letalidade": 3.01
+  },
+  {
+   "tipo_acidente_padronizado": "Incêndio",
+   "acidentes": 8605,
+   "mortos": 7,
+   "letalidade": 0.08
+  },
+  {
+   "tipo_acidente_padronizado": "Danos eventuais",
+   "acidentes": 232,
+   "mortos": 5,
+   "letalidade": 2.16
+  },
+  {
+   "tipo_acidente_padronizado": "Sinistro pessoal de trânsito",
+   "acidentes": 20,
+   "mortos": 3,
+   "letalidade": 15.0
+  }
+ ],
+ "por_uf": [
+  {
+   "uf": "MT",
+   "acidentes": 14022,
+   "mortos": 1476,
+   "letalidade": 10.53,
+   "acidentes_100mil_ano": 63.08,
+   "mortos_100mil_ano": 6.64
+  },
+  {
+   "uf": "TO",
+   "acidentes": 3706,
+   "mortos": 559,
+   "letalidade": 15.08,
+   "acidentes_100mil_ano": 39.35,
+   "mortos_100mil_ano": 5.94
+  },
+  {
+   "uf": "MS",
+   "acidentes": 10007,
+   "mortos": 965,
+   "letalidade": 9.64,
+   "acidentes_100mil_ano": 58.65,
+   "mortos_100mil_ano": 5.66
+  },
+  {
+   "uf": "RO",
+   "acidentes": 8621,
+   "mortos": 567,
+   "letalidade": 6.58,
+   "acidentes_100mil_ano": 83.26,
+   "mortos_100mil_ano": 5.48
+  },
+  {
+   "uf": "SC",
+   "acidentes": 47075,
+   "mortos": 2303,
+   "letalidade": 4.89,
+   "acidentes_100mil_ano": 101.72,
+   "mortos_100mil_ano": 4.98
+  },
+  {
+   "uf": "PR",
+   "acidentes": 44262,
+   "mortos": 3427,
+   "letalidade": 7.74,
+   "acidentes_100mil_ano": 63.31,
+   "mortos_100mil_ano": 4.9
+  },
+  {
+   "uf": "PI",
+   "acidentes": 7744,
+   "mortos": 915,
+   "letalidade": 11.82,
+   "acidentes_100mil_ano": 38.86,
+   "mortos_100mil_ano": 4.59
+  },
+  {
+   "uf": "GO",
+   "acidentes": 19169,
+   "mortos": 1760,
+   "letalidade": 9.18,
+   "acidentes_100mil_ano": 44.21,
+   "mortos_100mil_ano": 4.06
+  },
+  {
+   "uf": "RR",
+   "acidentes": 1168,
+   "mortos": 164,
+   "letalidade": 14.04,
+   "acidentes_100mil_ano": 28.82,
+   "mortos_100mil_ano": 4.05
+  },
+  {
+   "uf": "ES",
+   "acidentes": 14618,
+   "mortos": 944,
+   "letalidade": 6.46,
+   "acidentes_100mil_ano": 60.4,
+   "mortos_100mil_ano": 3.9
+  },
+  {
+   "uf": "BA",
+   "acidentes": 22245,
+   "mortos": 3302,
+   "letalidade": 14.84,
+   "acidentes_100mil_ano": 25.2,
+   "mortos_100mil_ano": 3.74
+  },
+  {
+   "uf": "MA",
+   "acidentes": 6932,
+   "mortos": 1484,
+   "letalidade": 21.41,
+   "acidentes_100mil_ano": 16.52,
+   "mortos_100mil_ano": 3.54
+  },
+  {
+   "uf": "MG",
+   "acidentes": 52888,
+   "mortos": 4396,
+   "letalidade": 8.31,
+   "acidentes_100mil_ano": 41.68,
+   "mortos_100mil_ano": 3.46
+  },
+  {
+   "uf": "PE",
+   "acidentes": 17113,
+   "mortos": 1858,
+   "letalidade": 10.86,
+   "acidentes_100mil_ano": 30.15,
+   "mortos_100mil_ano": 3.27
+  },
+  {
+   "uf": "PB",
+   "acidentes": 9780,
+   "mortos": 749,
+   "letalidade": 7.66,
+   "acidentes_100mil_ano": 40.01,
+   "mortos_100mil_ano": 3.06
+  },
+  {
+   "uf": "RN",
+   "acidentes": 8586,
+   "mortos": 623,
+   "letalidade": 7.26,
+   "acidentes_100mil_ano": 41.53,
+   "mortos_100mil_ano": 3.01
+  },
+  {
+   "uf": "RS",
+   "acidentes": 28690,
+   "mortos": 1855,
+   "letalidade": 6.47,
+   "acidentes_100mil_ano": 42.63,
+   "mortos_100mil_ano": 2.76
+  },
+  {
+   "uf": "AL",
+   "acidentes": 3764,
+   "mortos": 484,
+   "letalidade": 12.86,
+   "acidentes_100mil_ano": 19.34,
+   "mortos_100mil_ano": 2.49
+  },
+  {
+   "uf": "AC",
+   "acidentes": 1572,
+   "mortos": 126,
+   "letalidade": 8.02,
+   "acidentes_100mil_ano": 29.93,
+   "mortos_100mil_ano": 2.4
+  },
+  {
+   "uf": "PA",
+   "acidentes": 5635,
+   "mortos": 1118,
+   "letalidade": 19.84,
+   "acidentes_100mil_ano": 10.97,
+   "mortos_100mil_ano": 2.18
+  },
+  {
+   "uf": "SE",
+   "acidentes": 3320,
+   "mortos": 276,
+   "letalidade": 8.31,
+   "acidentes_100mil_ano": 24.22,
+   "mortos_100mil_ano": 2.01
+  },
+  {
+   "uf": "CE",
+   "acidentes": 8656,
+   "mortos": 1001,
+   "letalidade": 11.56,
+   "acidentes_100mil_ano": 15.81,
+   "mortos_100mil_ano": 1.83
+  },
+  {
+   "uf": "RJ",
+   "acidentes": 31911,
+   "mortos": 1819,
+   "letalidade": 5.7,
+   "acidentes_100mil_ano": 31.3,
+   "mortos_100mil_ano": 1.78
+  },
+  {
+   "uf": "AP",
+   "acidentes": 977,
+   "mortos": 74,
+   "letalidade": 7.57,
+   "acidentes_100mil_ano": 20.14,
+   "mortos_100mil_ano": 1.53
+  },
+  {
+   "uf": "DF",
+   "acidentes": 5988,
+   "mortos": 248,
+   "letalidade": 4.14,
+   "acidentes_100mil_ano": 33.55,
+   "mortos_100mil_ano": 1.39
+  },
+  {
+   "uf": "SP",
+   "acidentes": 27047,
+   "mortos": 1363,
+   "letalidade": 5.04,
+   "acidentes_100mil_ano": 9.85,
+   "mortos_100mil_ano": 0.5
+  },
+  {
+   "uf": "AM",
+   "acidentes": 759,
+   "mortos": 107,
+   "letalidade": 14.1,
+   "acidentes_100mil_ano": 3.02,
+   "mortos_100mil_ano": 0.43
+  }
+ ],
+ "urbano_rural": [
+  {
+   "urbano": false,
+   "acidentes": 229915,
+   "mortos": 25280,
+   "letalidade": 11.0
+  },
+  {
+   "urbano": true,
+   "acidentes": 176340,
+   "mortos": 8683,
+   "letalidade": 4.92
+  }
+ ],
+ "fase_dia": [
+  {
+   "fase_dia": "Amanhecer",
+   "acidentes": 19525,
+   "mortos": 2464,
+   "letalidade": 12.62
+  },
+  {
+   "fase_dia": "Anoitecer",
+   "acidentes": 22339,
+   "mortos": 1702,
+   "letalidade": 7.62
+  },
+  {
+   "fase_dia": "Plena Noite",
+   "acidentes": 142327,
+   "mortos": 16417,
+   "letalidade": 11.53
+  },
+  {
+   "fase_dia": "Pleno dia",
+   "acidentes": 222064,
+   "mortos": 13380,
+   "letalidade": 6.03
+  }
+ ],
+ "tipo_pista": [
+  {
+   "tipo_pista": "Dupla",
+   "acidentes": 169723,
+   "mortos": 8768,
+   "letalidade": 5.17
+  },
+  {
+   "tipo_pista": "Múltipla",
+   "acidentes": 36907,
+   "mortos": 1582,
+   "letalidade": 4.29
+  },
+  {
+   "tipo_pista": "Simples",
+   "acidentes": 199625,
+   "mortos": 23613,
+   "letalidade": 11.83
+  }
+ ],
+ "trechos": {
+  "total_trechos": 6610,
+  "trechos_com_morte": 5404,
+  "pct_trechos_50pct_mortes": 15.49,
+  "n_trechos_50pct_mortes": 1024,
+  "pct_mortes_top_1pct": 7.92,
+  "top10": [
+   {
+    "trecho": "BR-381/SP km 80–90",
+    "acidentes": 898,
+    "mortos": 86,
+    "municipio": "SAO PAULO"
+   },
+   {
+    "trecho": "BR-116/SP km 210–220",
+    "acidentes": 1982,
+    "mortos": 77,
+    "municipio": "GUARULHOS"
+   },
+   {
+    "trecho": "BR-116/SP km 220–230",
+    "acidentes": 2301,
+    "mortos": 75,
+    "municipio": "GUARULHOS"
+   },
+   {
+    "trecho": "BR-116/RJ km 180–190",
+    "acidentes": 1240,
+    "mortos": 60,
+    "municipio": "NOVA IGUACU"
+   },
+   {
+    "trecho": "BR-101/PE km 70–80",
+    "acidentes": 1131,
+    "mortos": 59,
+    "municipio": "RECIFE"
+   },
+   {
+    "trecho": "BR-116/RJ km 170–180",
+    "acidentes": 1451,
+    "mortos": 58,
+    "municipio": "SAO JOAO DE MERITI"
+   },
+   {
+    "trecho": "BR-101/SC km 200–210",
+    "acidentes": 3227,
+    "mortos": 56,
+    "municipio": "SAO JOSE"
+   },
+   {
+    "trecho": "BR-101/SC km 130–140",
+    "acidentes": 1678,
+    "mortos": 56,
+    "municipio": "BALNEARIO CAMBORIU"
+   },
+   {
+    "trecho": "BR-381/MG km 480–490",
+    "acidentes": 1632,
+    "mortos": 54,
+    "municipio": "BETIM"
+   },
+   {
+    "trecho": "BR-101/PE km 50–60",
+    "acidentes": 783,
+    "mortos": 51,
+    "municipio": "PAULISTA"
+   }
+  ]
+ },
+ "clima": [
+  {
+   "intensidade_chuva": "Sem chuva",
+   "acidentes": 266370,
+   "mortos": 19395,
+   "letalidade": 7.28
+  },
+  {
+   "intensidade_chuva": "Fraca",
+   "acidentes": 23628,
+   "mortos": 1546,
+   "letalidade": 6.54
+  },
+  {
+   "intensidade_chuva": "Moderada",
+   "acidentes": 5266,
+   "mortos": 370,
+   "letalidade": 7.03
+  },
+  {
+   "intensidade_chuva": "Forte",
+   "acidentes": 2200,
+   "mortos": 133,
+   "letalidade": 6.05
+  }
+ ],
+ "curva_feriado": [
+  {
+   "dias_ate_feriado": -3,
+   "indice": 106.35,
+   "letalidade": 8.2,
+   "dias": 63
+  },
+  {
+   "dias_ate_feriado": -2,
+   "indice": 109.36,
+   "letalidade": 7.87,
+   "dias": 66
+  },
+  {
+   "dias_ate_feriado": -1,
+   "indice": 109.31,
+   "letalidade": 8.81,
+   "dias": 67
+  },
+  {
+   "dias_ate_feriado": 0,
+   "indice": 101.69,
+   "letalidade": 8.75,
+   "dias": 74
+  },
+  {
+   "dias_ate_feriado": 1,
+   "indice": 96.93,
+   "letalidade": 7.81,
+   "dias": 68
+  },
+  {
+   "dias_ate_feriado": 2,
+   "indice": 95.1,
+   "letalidade": 8.22,
+   "dias": 67
+  },
+  {
+   "dias_ate_feriado": 3,
+   "indice": 95.9,
+   "letalidade": 8.33,
+   "dias": 65
+  }
+ ]
+}

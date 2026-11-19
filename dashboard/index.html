@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendário de Risco</title>
+<meta name="description" content="Quando, onde e por que acontecem os acidentes mais graves nas rodovias federais brasileiras (2020–2025). Dados da PRF, INMET, IBGE e calendário de feriados.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#eef0ee; --surface:#ffffff; --surface-2:#f6f7f5; --line:#dcdfdb; --line-strong:#c3c7c2;
+  --ink:#1c2024; --ink-2:#4a5057; --ink-3:#757c83;
+  --sign:#00704a; --sign-ink:#ffffff; --sign-soft:#e3f1ea;
+  --lane:#f2b705; --lane-soft:#fdf3d0;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --muted-bar:#b9bdb8;
+  --seq-0:#eef3f9; --seq-1:#cde2fb; --seq-2:#9ec5f4; --seq-3:#6da7ec; --seq-4:#3987e5; --seq-5:#256abf; --seq-6:#184f95; --seq-7:#0d366b;
+  --oseq-0:#fbf1ec; --oseq-1:#fbd9c8; --oseq-2:#f6b293; --oseq-3:#f08a60; --oseq-4:#e2652f; --oseq-5:#b9481b; --oseq-6:#8a3311;
+  --focus:#2a78d6;
+  --r-lg:14px; --r-md:10px; --r-sm:6px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#121518; --surface:#1b1f23; --surface-2:#22272c; --line:#2d3338; --line-strong:#3c434a;
+    --ink:#eef0ee; --ink-2:#bcc2c8; --ink-3:#8c949b;
+    --sign:#1f9a68; --sign-ink:#ffffff; --sign-soft:#16352a;
+    --lane:#f2b705; --lane-soft:#3a3214;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --muted-bar:#59615f;
+    --seq-0:#1d2530; --seq-1:#184f95; --seq-2:#1c5cab; --seq-3:#256abf; --seq-4:#2a78d6; --seq-5:#3987e5; --seq-6:#6da7ec; --seq-7:#b7d3f6;
+    --oseq-0:#2a201b; --oseq-1:#5a2a14; --oseq-2:#8a3311; --oseq-3:#b9481b; --oseq-4:#d95926; --oseq-5:#ec835a; --oseq-6:#f6b293;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#121518; --surface:#1b1f23; --surface-2:#22272c; --line:#2d3338; --line-strong:#3c434a;
+  --ink:#eef0ee; --ink-2:#bcc2c8; --ink-3:#8c949b;
+  --sign:#1f9a68; --sign-ink:#ffffff; --sign-soft:#16352a;
+  --lane:#f2b705; --lane-soft:#3a3214;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --muted-bar:#59615f;
+  --seq-0:#1d2530; --seq-1:#184f95; --seq-2:#1c5cab; --seq-3:#256abf; --seq-4:#2a78d6; --seq-5:#3987e5; --seq-6:#6da7ec; --seq-7:#b7d3f6;
+  --oseq-0:#2a201b; --oseq-1:#5a2a14; --oseq-2:#8a3311; --oseq-3:#b9481b; --oseq-4:#d95926; --oseq-5:#ec835a; --oseq-6:#f6b293;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Barlow,system-ui,sans-serif;font-size:15px;line-height:1.5}
+h1,h2,h3,.num{font-family:"Barlow Semi Condensed",Barlow,sans-serif}
+h1{font-size:clamp(24px,3.2vw,34px);line-height:1.1;margin:0;font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;line-height:1.2;margin:0 0 4px;font-weight:700}
+h3{font-size:17px;line-height:1.25;margin:0 0 2px;font-weight:600}
+p{margin:0 0 10px}
+a{color:var(--s1)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 16px}
+
+/* Placa: o cabeçalho funciona como uma placa de sinalização indicativa */
+.placa{background:var(--sign);color:var(--sign-ink);border-bottom:6px solid var(--lane)}
+.placa .wrap{display:flex;gap:16px;align-items:flex-end;justify-content:space-between;padding-top:22px;padding-bottom:18px;flex-wrap:wrap}
+.placa p{margin:6px 0 0;color:rgba(255,255,255,.86);max-width:70ch}
+.acoes{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:600 14px Barlow,sans-serif;border-radius:999px;padding:8px 14px;border:1.5px solid rgba(255,255,255,.7);background:transparent;color:#fff;cursor:pointer}
+.btn:hover{background:rgba(255,255,255,.12)}
+.btn.solid{background:#fff;color:var(--sign);border-color:#fff}
+.btn.solid:hover{background:#eaf5ef}
+
+/* Barra de filtros */
+.filtros{position:sticky;top:0;z-index:500;background:var(--surface);border-bottom:1px solid var(--line)}
+.filtros .wrap{display:flex;gap:10px;align-items:end;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+.f{display:flex;flex-direction:column;gap:2px;min-width:0}
+.f label{font-size:12px;color:var(--ink-3);font-weight:500}
+.f select{font:500 14px Barlow,sans-serif;color:var(--ink);background:var(--surface-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:6px 28px 6px 9px;min-width:120px;max-width:220px;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 14px) 52%,calc(100% - 9px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.limpar{font:600 13px Barlow,sans-serif;background:none;border:0;color:var(--s1);cursor:pointer;padding:8px 4px}
+.resumo-filtro{font-size:13px;color:var(--ink-3);margin-left:auto;align-self:center}
+@media (max-width:700px){.filtros{position:static}.f select{min-width:0;max-width:100%}.f{flex:1 1 45%}}
+
+/* Abas */
+.abas{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;border-bottom:1px solid var(--line);margin-top:18px}
+.aba{font:600 15px "Barlow Semi Condensed",sans-serif;white-space:nowrap;background:none;border:0;border-bottom:3px solid transparent;color:var(--ink-2);padding:10px 9px;cursor:pointer}
+.aba[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--lane)}
+.aba:hover{color:var(--ink)}
+.painel{display:none;padding:20px 0 48px}
+.painel.ativo{display:block}
+.intro{max-width:78ch;color:var(--ink-2);margin-bottom:16px}
+
+/* Grade e blocos */
+.grade{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.c12{grid-column:span 12}.c8{grid-column:span 8}.c7{grid-column:span 7}.c6{grid-column:span 6}.c5{grid-column:span 5}.c4{grid-column:span 4}.c3{grid-column:span 3}
+@media (max-width:980px){.c8,.c7,.c6,.c5,.c4{grid-column:span 12}.c3{grid-column:span 6}}
+@media (max-width:560px){.c3{grid-column:span 12}}
+.bloco{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;min-width:0}
+.bloco .sub{font-size:13px;color:var(--ink-3);margin:0 0 10px}
+.nota{font-size:12.5px;color:var(--ink-3);margin-top:8px}
+.achado{border-left:4px solid var(--lane);background:var(--lane-soft);padding:10px 14px;border-radius:0 var(--r-md) var(--r-md) 0;margin:0 0 16px;max-width:90ch}
+.achado b{font-weight:600}
+.cv{position:relative;height:260px}
+.cv.alto{height:360px}.cv.baixo{height:200px}
+
+/* Indicadores */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+@media (max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px}
+.kpi .rot{font-size:13px;color:var(--ink-3)}
+.kpi .val{font-family:"Barlow Semi Condensed",sans-serif;font-size:30px;font-weight:700;line-height:1.1}
+.kpi .var{font-size:12.5px;color:var(--ink-3)}
+
+/* Calendário de risco (destaque da página) */
+.calendario{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 16px 12px;margin-bottom:16px}
+.cal-topo{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px}
+.seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden}
+.seg button{font:600 13px Barlow,sans-serif;background:none;border:0;padding:6px 12px;color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.cal-linha{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:8px}
+.cal-linha .ano{font:600 14px "Barlow Semi Condensed",sans-serif;color:var(--ink-2)}
+.cal-faixa{display:block;width:100%;height:28px;border-radius:2px}
+.cal-linha+.cal-linha{border-top:2px dashed var(--lane);padding-top:3px;margin-top:3px}
+.cal-meses{display:grid;grid-template-columns:44px 1fr;gap:8px;font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.cal-meses div:last-child{display:grid;grid-template-columns:repeat(12,1fr)}
+.legenda{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3)}
+.legenda .rampa{width:140px;height:10px;border-radius:3px}
+.legenda .marca{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px}
+
+/* Tabelas */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-weight:600;color:var(--ink-2);text-align:left;border-bottom:1px solid var(--line-strong);padding:7px 8px;font-size:13px}
+td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tab-rol{overflow-x:auto}
+.barra-in{display:inline-block;height:8px;border-radius:2px;background:var(--s2);vertical-align:middle;margin-right:6px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px}
+.tag.ok{background:var(--sign-soft);color:var(--sign)}
+.tag.par{background:var(--lane-soft);color:#7a5a00}
+.tag.nao{background:#fde4e2;color:#a22a2a}
+:root[data-theme="dark"] .tag.par{color:var(--lane)}
+:root[data-theme="dark"] .tag.nao{background:#3a1d1c;color:#f1a19b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag.par{color:var(--lane)}:root:not([data-theme="light"]) .tag.nao{background:#3a1d1c;color:#f1a19b}}
+
+/* Mapa de calor em grade */
+.calor{display:grid;gap:2px;font-size:11px}
+.calor .cel{border-radius:3px;min-height:22px;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums;cursor:default}
+.calor .rot{color:var(--ink-3);display:flex;align-items:center;font-size:11.5px}
+.calor .rot.topo{justify-content:center}
+
+/* Mapa de ladrilhos das UFs */
+.ladrilhos{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-width:440px;margin:0 auto}
+.lad{aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:600 13px "Barlow Semi Condensed",sans-serif;cursor:pointer;border:2px solid transparent}
+.lad small{font:500 11px Barlow,sans-serif;opacity:.9}
+.lad.sel{border-color:var(--lane)}
+#mapa{height:420px;border-radius:var(--r-md);border:1px solid var(--line)}
+
+/* Recomendações */
+.rec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:6px}
+.rec .prio{font:600 13px Barlow,sans-serif;color:var(--ink-3)}
+.rec .prova{font-size:13.5px;color:var(--ink-2)}
+.rec button{align-self:flex-start;font:600 13px Barlow,sans-serif;background:none;border:1px solid var(--line-strong);border-radius:999px;padding:5px 12px;color:var(--ink);cursor:pointer;margin-top:auto}
+
+/* Dica (tooltip) dos gráficos desenhados à mão */
+#dica{position:fixed;z-index:2000;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12.5px;padding:6px 9px;border-radius:6px;max-width:260px;display:none;line-height:1.35}
+
+/* Modo apresentação */
+#tour{position:fixed;right:16px;bottom:16px;z-index:1500;width:min(420px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line-strong);border-top:6px solid var(--lane);border-radius:var(--r-lg);box-shadow:0 12px 40px rgba(0,0,0,.25);padding:16px;display:none}
+#tour .passo{font-size:12.5px;color:var(--ink-3)}
+#tour h3{font-size:20px;margin:2px 0 6px}
+#tour .nav{display:flex;gap:8px;justify-content:space-between;margin-top:10px}
+#tour .nav button{font:600 14px Barlow,sans-serif;border-radius:999px;padding:7px 14px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer}
+#tour .nav button.prox{background:var(--sign);border-color:var(--sign);color:#fff}
+
+#carregando{padding:60px 16px;text-align:center;color:var(--ink-2)}
+.rodape{border-top:1px solid var(--line);padding:18px 0 30px;font-size:13px;color:var(--ink-3)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="placa">
+  <div class="wrap">
+    <div>
+      <h1>Calendário de Risco nas Rodovias Federais</h1>
+      <p>Quando, onde e por que acontecem os acidentes mais graves no Brasil, de 2020 a 2025. São 406.255 acidentes registrados pela PRF, cruzados com a chuva medida pelo INMET, a população do IBGE e o calendário de feriados.</p>
+    </div>
+    <div class="acoes">
+      <button class="btn solid" id="btnTour">Ver a apresentação guiada</button>
+      <button class="btn" id="btnTema" aria-label="Alternar tema claro ou escuro">Tema escuro</button>
+    </div>
+  </div>
+</header>
+
+<div class="filtros" role="region" aria-label="Filtros">
+  <div class="wrap">
+    <div class="f"><label for="fAno">Ano</label><select id="fAno"></select></div>
+    <div class="f"><label for="fUf">Estado</label><select id="fUf"></select></div>
+    <div class="f"><label for="fUrb">Trecho</label><select id="fUrb"><option value="">Urbano e rural</option><option value="1">Urbano</option><option value="0">Rural</option></select></div>
+    <div class="f"><label for="fTd">Tipo de dia</label><select id="fTd"></select></div>
+    <div class="f"><label for="fGc">Grupo de causa</label><select id="fGc"></select></div>
+    <div class="f"><label for="fCh">Chuva na hora (INMET)</label><select id="fCh"></select></div>
+    <button class="limpar" id="btnLimpar">Limpar filtros</button>
+    <span class="resumo-filtro" id="resumoFiltro" aria-live="polite"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <nav class="abas" role="tablist" aria-label="Seções do dashboard" id="abas"></nav>
+  <div id="carregando">Carregando 406 mil acidentes…</div>
+
+  <!-- VISÃO GERAL -->
+  <section class="painel" id="p-geral" role="tabpanel" aria-label="Visão geral">
+    <div class="kpis" id="kpis"></div>
+    <div class="calendario">
+      <div class="cal-topo">
+        <div>
+          <h2>Cada dia de 2020 a 2025</h2>
+          <p class="sub" id="calSub" style="margin:0;color:var(--ink-3);font-size:13px">Cada traço é um dia; quanto mais escuro, mais mortes. Passe o mouse para ver a data.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div class="seg" role="group" aria-label="Medida do calendário">
+            <button aria-pressed="true" data-cal="m">Mortos</button>
+            <button aria-pressed="false" data-cal="a">Acidentes</button>
+          </div>
+          <div class="legenda"><span>menos</span><span class="rampa" id="calRampa"></span><span>mais</span></div>
+        </div>
+      </div>
+      <div id="calLinhas"></div>
+      <div class="cal-meses"><div></div><div><span>jan</span><span>fev</span><span>mar</span><span>abr</span><span>mai</span><span>jun</span><span>jul</span><span>ago</span><span>set</span><span>out</span><span>nov</span><span>dez</span></div></div>
+    </div>
+    <div class="grade">
+      <div class="bloco c6"><h3>Acidentes por mês</h3><p class="sub">A faixa cinza marca o período da pandemia (mar/2020 a dez/2021).</p><div class="cv baixo"><canvas id="gMesA"></canvas></div></div>
+      <div class="bloco c6"><h3>Mortos por mês</h3><p class="sub">Mesma escala de tempo do gráfico ao lado.</p><div class="cv baixo"><canvas id="gMesM"></canvas></div></div>
+      <div class="bloco c12"><h3>Resumo por ano</h3><div class="tab-rol"><table id="tAno"></table></div></div>
+    </div>
+  </section>
+
+  <!-- QUANDO -->
+  <section class="painel" id="p-quando" role="tabpanel" aria-label="Quando acontece">
+    <p class="achado" id="achQuando"></p>
+    <div class="grade">
+      <div class="bloco c12">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start">
+          <div><h3>Dia da semana × hora</h3><p class="sub" id="subCalor">Média de acidentes por hora em cada dia da semana.</p></div>
+          <div class="seg" role="group" aria-label="Medida do mapa de calor"><button aria-pressed="true" data-calor="a">Acidentes</button><button aria-pressed="false" data-calor="l">Letalidade</button></div>
+        </div>
+        <div class="calor" id="calorDH"></div>
+      </div>
+      <div class="bloco c6"><h3>Acidentes por hora do dia</h3><p class="sub">Total no período filtrado.</p><div class="cv"><canvas id="gHoraA"></canvas></div></div>
+      <div class="bloco c6"><h3>Letalidade por hora do dia</h3><p class="sub">Mortos a cada 100 acidentes.</p><div class="cv"><canvas id="gHoraL"></canvas></div></div>
+      <div class="bloco c6"><h3>Média de acidentes por dia, por mês</h3><div class="cv baixo"><canvas id="gMesAno"></canvas></div></div>
+      <div class="bloco c6"><h3>Letalidade por fase do dia</h3><div class="cv baixo"><canvas id="gFase"></canvas></div></div>
+    </div>
+  </section>
+
+  <!-- DATAS ESPECIAIS -->
+  <section class="painel" id="p-datas" role="tabpanel" aria-label="Datas especiais">
+    <p class="achado" id="achDatas"></p>
+    <div class="grade">
+      <div class="bloco c6"><h3>Mortos por dia, por tipo de dia</h3><p class="sub">Média por dia de calendário. Fim de semana comum = sábado e domingo sem feriado.</p><div class="cv"><canvas id="gTdM"></canvas></div></div>
+      <div class="bloco c6"><h3>Acidentes por dia, por tipo de dia</h3><p class="sub">Média por dia de calendário.</p><div class="cv"><canvas id="gTdA"></canvas></div></div>
+      <div class="bloco c7"><h3>Antes, durante e depois do feriado</h3><p class="sub">Acidentes em relação à média do mesmo dia da semana (100 = normal).</p><div class="cv"><canvas id="gCurva"></canvas></div></div>
+      <div class="bloco c5"><h3>Feriados mais letais</h3><p class="sub">Mortos por dia em cada evento (inclui o feriadão).</p><div class="cv alto"><canvas id="gEv"></canvas></div></div>
+      <div class="bloco c12"><h3>Carnaval com e sem festa de rua</h3><p class="sub">Índice de acidentes nos dias de Carnaval (100 = dias semelhantes das 4 semanas vizinhas). Em 2021 e 2022 a festa de rua foi cancelada pela pandemia.</p><div class="cv baixo"><canvas id="gCarnaval"></canvas></div><p class="nota">Resultado fixo do estudo (não muda com os filtros). Com festa: índice médio <span id="carCom"></span>; sem festa: <span id="carSem"></span>. A festa de rua não explica o aumento: o efeito vem do feriado prolongado.</p></div>
+    </div>
+  </section>
+
+  <!-- CAUSAS -->
+  <section class="painel" id="p-causas" role="tabpanel" aria-label="Por que acontece">
+    <p class="achado" id="achCausas"></p>
+    <div class="grade">
+      <div class="bloco c7"><h3>Frequência × letalidade por grupo de causa</h3><p class="sub">O tamanho do círculo é o total de mortos. Acima da linha tracejada, causas mais letais que a média. Passe o mouse nos círculos sem nome.</p><div class="cv alto"><canvas id="gCausa"></canvas></div></div>
+      <div class="bloco c5"><h3>Tipo de acidente: parte dos acidentes e das mortes</h3><p class="sub">Percentual do total no período filtrado.</p><div class="cv alto"><canvas id="gTipo"></canvas></div></div>
+      <div class="bloco c12"><h3>Letalidade por causa e faixa horária</h3><p class="sub">Mortos a cada 100 acidentes. Células com menos de 100 acidentes ficam em branco.</p><div class="calor" id="calorCausa"></div></div>
+    </div>
+  </section>
+
+  <!-- ONDE -->
+  <section class="painel" id="p-onde" role="tabpanel" aria-label="Onde acontece">
+    <p class="achado" id="achOnde"></p>
+    <div class="grade">
+      <div class="bloco c5">
+        <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><h3>Estados</h3>
+          <div class="seg" role="group" aria-label="Medida do mapa de estados"><button aria-pressed="true" data-uf="mh">Mortos/100 mil</button><button aria-pressed="false" data-uf="l">Letalidade</button></div></div>
+        <p class="sub" id="subUf">Mortos por 100 mil habitantes ao ano. Clique em um estado para filtrar.</p>
+        <div class="ladrilhos" id="ladrilhos"></div>
+        <p class="nota">A base cobre só rodovias federais: em SP a maior parte da malha é estadual, por isso a taxa é baixa.</p>
+      </div>
+      <div class="bloco c7"><h3>Trechos críticos no mapa</h3><p class="sub">Os 150 trechos de 10 km com mais mortes no filtro atual. Círculo maior = mais mortes.</p><div id="mapa" role="img" aria-label="Mapa dos trechos com mais mortes"></div></div>
+      <div class="bloco c12"><h3>Ranking dos trechos de 10 km</h3><p class="sub" id="subTrechos"></p><div class="tab-rol"><table id="tTrechos"></table></div></div>
+      <div class="bloco c6"><h3>Letalidade: urbano × rural</h3><p class="sub">Mortos a cada 100 acidentes.</p><div class="cv baixo"><canvas id="gUrb"></canvas></div></div>
+      <div class="bloco c6"><h3>Letalidade por tipo de pista</h3><p class="sub">Mortos a cada 100 acidentes. Pista simples = um sentido para cada lado, sem separação.</p><div class="cv baixo"><canvas id="gPista"></canvas></div></div>
+    </div>
+  </section>
+
+  <!-- CLIMA -->
+  <section class="painel" id="p-clima" role="tabpanel" aria-label="Clima">
+    <p class="achado" id="achClima"></p>
+    <div class="grade">
+      <div class="bloco c6"><h3>Letalidade por intensidade da chuva</h3><p class="sub">Chuva medida pela estação do INMET mais próxima (até 50 km), na hora do acidente.</p><div class="cv"><canvas id="gChuva"></canvas></div></div>
+      <div class="bloco c6"><h3>Acidentes por condição do tempo anotada pela PRF</h3><p class="sub">Registro do agente no local.</p><div class="cv"><canvas id="gCm"></canvas></div></div>
+      <div class="bloco c12"><h3>A chuva anotada pela PRF bate com a medida pelo INMET?</h3><div id="concord"></div></div>
+    </div>
+  </section>
+
+  <!-- RAIO-X POR ESTADO -->
+  <section class="painel" id="p-uf" role="tabpanel" aria-label="Raio-x por estado">
+    <div style="display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:14px">
+      <div class="f"><label for="rxUf">Estado</label><select id="rxUf"></select></div>
+      <p class="sub" style="margin:0;color:var(--ink-3)">Compara o estado com o Brasil no ano e nos demais filtros escolhidos (o filtro de estado é ignorado aqui).</p>
+    </div>
+    <div class="grade">
+      <div class="bloco c5"><h3 id="rxTit"></h3><div class="tab-rol"><table id="tRx"></table></div></div>
+      <div class="bloco c7"><h3>Letalidade por faixa horária: estado × Brasil</h3><div class="cv"><canvas id="gRx"></canvas></div></div>
+      <div class="bloco c12"><h3>Trechos mais letais do estado</h3><p class="sub">Letalidade acima de 100 indica trechos com acidentes de muitas vítimas, como ônibus.</p><div class="tab-rol"><table id="tRxTr"></table></div></div>
+    </div>
+  </section>
+
+  <!-- DIAGNÓSTICO -->
+  <section class="painel" id="p-diag" role="tabpanel" aria-label="Diagnóstico">
+    <p class="intro">Resultados fixos do estudo, calculados sobre todos os 406.255 acidentes (não mudam com os filtros). Eles separam o efeito de cada fator e testam se as diferenças são reais ou acaso.</p>
+    <div class="grade">
+      <div class="bloco c7"><h3>O que aumenta a chance de um acidente ser fatal</h3><p class="sub">Regressão logística: razão de chances com intervalo de 95%. Acima de 1 aumenta, abaixo de 1 reduz. Referências: tarde, pista dupla, causa “falta de atenção”, sem chuva, dia útil, trecho rural.</p><div id="floresta"></div></div>
+      <div class="bloco c5"><h3>Hipóteses testadas</h3><div class="tab-rol"><table id="tHip"></table></div></div>
+      <div class="bloco c12"><h3>Correlação entre indicadores diários (Spearman)</h3><p class="sub">De −1 (relação inversa) a +1 (relação direta). Valores perto de zero indicam ausência de relação.</p><div class="calor" id="calorCorr" style="max-width:820px"></div></div>
+    </div>
+  </section>
+
+  <!-- PREVISÃO -->
+  <section class="painel" id="p-prev" role="tabpanel" aria-label="Previsão 2026">
+    <p class="achado" id="achPrev"></p>
+    <div class="grade">
+      <div class="bloco c12"><h3>Acidentes previstos por dia em 2026</h3><p class="sub">Modelo binomial negativo treinado com 2020–2025. A faixa mostra o intervalo de 95% da média prevista.</p><div class="cv"><canvas id="gPrev"></canvas></div></div>
+      <div class="bloco c7"><h3>Feriados de 2026: mortes previstas por dia</h3><div class="cv alto"><canvas id="gPrevFer"></canvas></div></div>
+      <div class="bloco c5"><h3>Quão bem o modelo acertou 2025</h3><div class="tab-rol"><table id="tVal"></table></div><p class="nota">O modelo foi treinado com 2020–2024 e testado em 2025, ano que ele não conhecia. A previsão ingênua repete a média de 2024 de cada dia da semana.</p></div>
+    </div>
+  </section>
+
+  <!-- RECOMENDAÇÕES -->
+  <section class="painel" id="p-rec" role="tabpanel" aria-label="Recomendações">
+    <p class="intro">Seis ações para reduzir mortes, ordenadas por prioridade. Cada uma aponta a evidência que a sustenta.</p>
+    <div class="grade" id="recs"></div>
+    <div class="bloco" style="margin-top:16px"><h3>Onde e quando fiscalizar</h3><p class="sub">Os 15 trechos com mais mortes no filtro atual, com a faixa horária e o dia da semana em que mais se morre em cada um.</p><div class="tab-rol"><table id="tFisc"></table></div></div>
+  </section>
+
+  <!-- METODOLOGIA -->
+  <section class="painel" id="p-met" role="tabpanel" aria-label="Metodologia e fontes">
+    <div class="grade">
+      <div class="bloco c6">
+        <h3>Fontes</h3>
+        <table>
+          <tr><th>Fonte</th><th>O que entrou</th></tr>
+          <tr><td><a href="https://www.gov.br/prf/pt-br/acesso-a-informacao/dados-abertos/dados-abertos-da-prf" target="_blank" rel="noopener">PRF — Dados abertos de acidentes</a></td><td>406.255 acidentes de 2020 a 2025, agrupados por ocorrência</td></tr>
+          <tr><td><a href="https://portal.inmet.gov.br/dadoshistoricos" target="_blank" rel="noopener">INMET — Dados históricos</a></td><td>Chuva e temperatura horárias de cerca de 570 estações automáticas por ano</td></tr>
+          <tr><td><a href="https://www.ibge.gov.br/estatisticas/sociais/populacao/9103-estimativas-de-populacao.html" target="_blank" rel="noopener">IBGE — Estimativas da População</a> e <a href="https://ftp.ibge.gov.br/Informacoes_Gerais_e_Referencia/Relacao_da_Populacao_dos_Municipios_para_publicacao_no_DOU_em_2023/POP_TCU_2023_Brasil_e_UFs_POP2022_Malha2023.pdf" target="_blank" rel="noopener">Censo 2022</a></td><td>População por estado e ano; 2023 = média entre 2022 e 2024</td></tr>
+          <tr><td>Calendário de feriados (portarias do Governo Federal)</td><td>283 datas: feriados, pontos facultativos, Carnaval, São João (só no Nordeste) e feriadões</td></tr>
+        </table>
+      </div>
+      <div class="bloco c6">
+        <h3>Como os dados foram cruzados</h3>
+        <ol style="margin:0;padding-left:20px">
+          <li>Os seis arquivos da PRF foram unidos e padronizados; as 91 causas viraram 11 grupos comparáveis entre os anos.</li>
+          <li>Cada acidente recebeu o tipo de dia e a distância (em dias) até o feriado mais próximo.</li>
+          <li>Cada acidente com coordenadas foi ligado à estação do INMET ativa mais próxima, até 50 km, na mesma hora (convertida do UTC para o fuso do estado). 73% dos acidentes receberam dado de chuva.</li>
+          <li>A população do IBGE por estado e ano permite as taxas por 100 mil habitantes.</li>
+        </ol>
+        <h3 style="margin-top:12px">Definições</h3>
+        <p><b>Letalidade</b>: mortos a cada 100 acidentes. <b>Trecho</b>: rodovia, estado e faixa de 10 km. <b>Feriadão</b>: fim de semana e dias de emenda ligados a um feriado.</p>
+        <h3 style="margin-top:12px">Limitações</h3>
+        <p>Só rodovias federais; mortes posteriores ao registro podem não constar; não há dado de volume de tráfego, então os resultados indicam risco por dia, não por veículo. Associações não provam causa e efeito.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="rodape"><div class="wrap">Projeto A3 — Análise de Dados e Big Data, 2026.2. Fontes: PRF, INMET, IBGE e Governo Federal. Elaboração da equipe.</div></footer>
+
+<div id="dica" role="tooltip"></div>
+<aside id="tour" aria-live="polite" aria-label="Apresentação guiada">
+  <div class="passo" id="tourPasso"></div>
+  <h3 id="tourTit"></h3>
+  <p id="tourTxt" style="margin:0"></p>
+  <div class="nav"><button id="tourFim">Fechar</button><div style="display:flex;gap:8px"><button id="tourAnt">Voltar</button><button class="prox" id="tourProx">Próximo</button></div></div>
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+'use strict';
+// ------------------------------------------------------------------ utilidades
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const fmt = (x, c = 0) => (x == null || !isFinite(x)) ? '–' : x.toLocaleString('pt-BR', {minimumFractionDigits: c, maximumFractionDigits: c});
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const DIAS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+const DIAS_LONGO = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado', 'domingo'];
+const FAIXAS = ['Madrugada (0–5h)', 'Manhã (6–11h)', 'Tarde (12–17h)', 'Noite (18–23h)'];
+const faixaDe = h => h <= 5 ? 0 : h <= 11 ? 1 : h <= 17 ? 2 : 3;
+const ND = 2192, D0 = Date.UTC(2020, 0, 1);
+const dataDe = i => new Date(D0 + i * 864e5);
+const dowDe = i => (dataDe(i).getUTCDay() + 6) % 7;  // 0 = segunda
+const anoDe = i => dataDe(i).getUTCFullYear();
+const mesIdx = i => { const d = dataDe(i); return (d.getUTCFullYear() - 2020) * 12 + d.getUTCMonth(); };
+const dataTxt = i => dataDe(i).toLocaleDateString('pt-BR', {timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric'});
+const dica = $('#dica');
+function mostraDica(e, html) { dica.innerHTML = html; dica.style.display = 'block'; const x = Math.min(e.clientX + 14, innerWidth - dica.offsetWidth - 8); dica.style.left = x + 'px'; dica.style.top = (e.clientY + 14) + 'px'; }
+const escondeDica = () => dica.style.display = 'none';
+function rampa(v, min, max, pref, n = 7) { if (v == null || !isFinite(v)) return 'transparent'; const t = Math.max(0, Math.min(1, (v - min) / ((max - min) || 1))); return css(`--${pref}-${Math.round(t * (n - 1)) + (pref === 'seq' ? 1 : 0)}`); }
+function textoSobre(cor) { const m = cor.match(/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i); if (!m) return css('--ink'); const [r, g, b] = m.slice(1).map(x => parseInt(x, 16) / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4); return (0.2126 * r + 0.7152 * g + 0.0722 * b) > 0.4 ? '#1c2024' : '#ffffff'; }
+
+// ------------------------------------------------------------------ dados
+let M, E, C = {}, DIA_JAN = new Int8Array(ND).fill(9);
+async function carrega() {
+  const [m, e, b] = await Promise.all([fetch('data/meta.json').then(r => r.json()), fetch('data/estatico.json').then(r => r.json()), fetch('data/acidentes.bin').then(r => r.arrayBuffer())]);
+  M = m; E = e;
+  for (const l of M.layout) C[l.col] = l.tipo === 'u16' ? new Uint16Array(b, l.offset, M.n) : new Uint8Array(b, l.offset, M.n);
+  for (let i = 0; i < M.n; i++) DIA_JAN[C.d[i]] = C.jan[i];
+}
+
+// ------------------------------------------------------------------ filtros
+const F = {ano: '', uf: '', urb: '', td: '', gc: '', ch: ''};
+function opcoes(sel, todos, itens) { sel.innerHTML = `<option value="">${todos}</option>` + itens.map(([v, t]) => `<option value="${v}">${t}</option>`).join(''); }
+function montaFiltros() {
+  opcoes($('#fAno'), 'Todos (2020–2025)', [2020, 2021, 2022, 2023, 2024, 2025].map(a => [a, a]));
+  opcoes($('#fUf'), 'Brasil', M.dic.uf.map((u, i) => [i, u]));
+  opcoes($('#fTd'), 'Todos', M.dic.td.map((u, i) => [i, u]));
+  opcoes($('#fGc'), 'Todas', M.dic.gc.map((u, i) => [i, u]).sort((a, b) => a[1].localeCompare(b[1], 'pt')));
+  opcoes($('#fCh'), 'Todas as condições', M.dic.ch.map((u, i) => [i, u]));
+  opcoes($('#rxUf'), 'Escolha', M.dic.uf.map((u, i) => [i, u]));
+  $('#rxUf').value = M.dic.uf.indexOf('BA');
+  const ids = {fAno: 'ano', fUf: 'uf', fUrb: 'urb', fTd: 'td', fGc: 'gc', fCh: 'ch'};
+  for (const [id, k] of Object.entries(ids)) $('#' + id).addEventListener('change', e => { F[k] = e.target.value; atualiza(); });
+  $('#btnLimpar').addEventListener('click', () => { for (const k in F) F[k] = ''; for (const id in ids) $('#' + id).value = ''; atualiza(); });
+  $('#rxUf').addEventListener('change', () => { if (abaAtual === 'uf') desenhaRaioX(); });
+}
+function passa(i, ignoraUf = false) {
+  if (F.ano && anoDe(C.d[i]) != F.ano) return false;
+  if (!ignoraUf && F.uf !== '' && C.uf[i] != F.uf) return false;
+  if (F.urb !== '' && C.urb[i] != F.urb) return false;
+  if (F.td !== '' && M.cal_td[C.d[i]] != F.td) return false;
+  if (F.gc !== '' && C.gc[i] != F.gc) return false;
+  if (F.ch !== '' && C.ch[i] != F.ch) return false;
+  return true;
+}
+const anosSel = () => F.ano ? [+F.ano] : [2020, 2021, 2022, 2023, 2024, 2025];
+function diasNoFiltro() {  // dias de calendário que entram nas médias por dia
+  let n = 0; for (let d = 0; d < ND; d++) { if (F.ano && anoDe(d) != F.ano) continue; if (F.td !== '' && M.cal_td[d] != F.td) continue; n++; } return n;
+}
+function popSel(ufIdx) { const ufs = ufIdx != null ? [M.dic.uf[ufIdx]] : (F.uf !== '' ? [M.dic.uf[F.uf]] : M.dic.uf); let p = 0; for (const u of ufs) for (const a of anosSel()) p += M.pop[u][a]; return p; }
+
+// ------------------------------------------------------------------ agregação (uma passada sobre as 406 mil linhas)
+let A;
+function agrega() {
+  const nT = M.trechos.length + 1, nG = M.dic.gc.length, nTa = M.dic.ta.length, nUf = M.dic.uf.length;
+  const z = n => new Float64Array(n);
+  const a = {n: 0, m: 0, fg: 0, ano: z(6), anoM: z(6), anoFg: z(6), anoFat: z(6), mes: z(72), mesM: z(72), dia: z(ND), diaM: z(ND),
+    dh: z(168), dhM: z(168), hora: z(24), horaM: z(24), td: z(6), tdM: z(6), ev: z(13), evM: z(13), gc: z(nG), gcM: z(nG),
+    gcF: z(nG * 4), gcFM: z(nG * 4), ta: z(nTa), taM: z(nTa), tp: z(3), tpM: z(3), fd: z(4), fdM: z(4), cm: z(M.dic.cm.length), cmM: z(M.dic.cm.length),
+    ch: z(5), chM: z(5), uf: z(nUf), ufM: z(nUf), urb: z(2), urbM: z(2), tr: z(nT), trM: z(nT), trFM: z(nT * 4), trDM: z(nT * 7), fat: 0};
+  const {d, h, uf, urb, td, ev, gc, ta, tp, fd, cm, ch, m, fg, tr} = C;
+  for (let i = 0; i < M.n; i++) {
+    if (!passa(i)) continue;
+    const di = d[i], mi = m[i], y = anoDe(di) - 2020, hr = h[i], dw = dowDe(di), fx = faixaDe(hr);
+    a.n++; a.m += mi; a.fg += fg[i]; if (mi > 0) a.fat++;
+    a.ano[y]++; a.anoM[y] += mi; a.anoFg[y] += fg[i]; if (mi > 0) a.anoFat[y]++;
+    const mm = mesIdx(di); a.mes[mm]++; a.mesM[mm] += mi; a.dia[di]++; a.diaM[di] += mi;
+    a.dh[dw * 24 + hr]++; a.dhM[dw * 24 + hr] += mi; a.hora[hr]++; a.horaM[hr] += mi;
+    const tdi = M.cal_td[di]; a.td[tdi]++; a.tdM[tdi] += mi; a.ev[ev[i]]++; a.evM[ev[i]] += mi;
+    a.gc[gc[i]]++; a.gcM[gc[i]] += mi; a.gcF[gc[i] * 4 + fx]++; a.gcFM[gc[i] * 4 + fx] += mi;
+    a.ta[ta[i]]++; a.taM[ta[i]] += mi; a.tp[tp[i]]++; a.tpM[tp[i]] += mi; a.fd[fd[i]]++; a.fdM[fd[i]] += mi;
+    a.cm[cm[i]]++; a.cmM[cm[i]] += mi; a.ch[ch[i]]++; a.chM[ch[i]] += mi; a.uf[uf[i]]++; a.ufM[uf[i]] += mi; a.urb[urb[i]]++; a.urbM[urb[i]] += mi;
+    const t = tr[i]; a.tr[t]++; a.trM[t] += mi; a.trFM[t * 4 + fx] += mi; a.trDM[t * 7 + dw] += mi;
+  }
+  return a;
+}
+// agregação leve para o raio-x por estado (ignora o filtro de estado)
+function agregaUf(ufIdx) {
+  const r = {n: 0, m: 0, f: new Float64Array(4), fM: new Float64Array(4), noite: 0, simples: 0, rural: 0, gcM: new Float64Array(M.dic.gc.length), taM: new Float64Array(M.dic.ta.length)};
+  for (let i = 0; i < M.n; i++) {
+    if (ufIdx != null && C.uf[i] != ufIdx) continue; if (!passa(i, true)) continue;
+    const mi = C.m[i], fx = faixaDe(C.h[i]); r.n++; r.m += mi; r.f[fx]++; r.fM[fx] += mi;
+    if (fx === 0 || fx === 3) r.noite++; if (C.tp[i] === 0) r.simples++; if (C.urb[i] === 0) r.rural++; r.gcM[C.gc[i]] += mi; r.taM[C.ta[i]] += mi;
+  }
+  return r;
+}
+
+// ------------------------------------------------------------------ gráficos (Chart.js)
+const G = {};
+function base(tipo, opcoes = {}) {
+  const ink2 = css('--ink-2'), line = css('--line');
+  return Object.assign({type: tipo, options: {responsive: true, maintainAspectRatio: false, animation: false,
+    interaction: {mode: 'index', intersect: false},
+    plugins: {legend: {display: false, labels: {color: ink2, font: {family: 'Barlow, system-ui, sans-serif', size: 12}, boxWidth: 12, boxHeight: 12}},
+      tooltip: {backgroundColor: css('--ink'), titleColor: css('--surface'), bodyColor: css('--surface'), titleFont: {family: 'Barlow, system-ui, sans-serif', weight: '600'}, bodyFont: {family: 'Barlow, system-ui, sans-serif'}, padding: 8, cornerRadius: 6}},
+    scales: {x: {grid: {display: false}, ticks: {color: ink2, font: {family: 'Barlow, system-ui, sans-serif', size: 11.5}}, border: {color: line}},
+      y: {grid: {color: line}, ticks: {color: ink2, font: {family: 'Barlow, system-ui, sans-serif', size: 11.5}, callback: v => fmt(v, v % 1 ? 1 : 0)}, border: {display: false}, beginAtZero: true}}}}, opcoes);
+}
+function grafico(id, cfg) { if (G[id]) G[id].destroy(); G[id] = new Chart(document.getElementById(id), cfg); }
+const barra = (cor) => ({backgroundColor: cor, borderRadius: {topLeft: 4, topRight: 4}, borderSkipped: 'bottom', maxBarThickness: 46, categoryPercentage: .8, barPercentage: .9});
+const barraH = (cor) => ({backgroundColor: cor, borderRadius: {topRight: 4, bottomRight: 4}, borderSkipped: 'left', maxBarThickness: 22});
+const pandemia = {id: 'pandemia', beforeDatasetsDraw(ch) { const {ctx, chartArea: c, scales: {x}} = ch; const x0 = x.getPixelForValue(2), x1 = x.getPixelForValue(23); ctx.save(); ctx.fillStyle = css('--surface-2'); ctx.fillRect(x0, c.top, x1 - x0, c.bottom - c.top); ctx.restore(); }};
+function linhaRef(valor, rotulo) { return {id: 'ref' + rotulo, afterDatasetsDraw(ch) { const {ctx, chartArea: c, scales: {y}} = ch; const yy = y.getPixelForValue(valor); ctx.save(); ctx.strokeStyle = css('--ink-3'); ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(c.left, yy); ctx.lineTo(c.right, yy); ctx.stroke(); ctx.fillStyle = css('--ink-3'); ctx.font = '11px Barlow, system-ui, sans-serif'; ctx.textAlign = 'right'; ctx.fillText(rotulo, c.right, yy - 4); ctx.restore(); }}; }
+const let_ = (m, n) => n ? m / n * 100 : null;
+
+// ------------------------------------------------------------------ VISÃO GERAL
+function kpis() {
+  const anos = anosSel(), ult = anos[anos.length - 1], y = ult - 2020;
+  const varTxt = (cur, ant) => (ant > 0 && F.ano) ? `${cur >= ant ? '+' : '−'}${fmt(Math.abs((cur / ant - 1) * 100), 1)}% em relação a ${ult - 1}` : (F.ano ? '' : `${fmt(A.n / diasNoFiltro(), 1)} por dia`);
+  const anterior = k => { if (!F.ano || ult === 2020) return 0; const save = F.ano; F.ano = String(ult - 1); let s = 0; for (let i = 0; i < M.n; i++) if (passa(i)) s += k === 'n' ? 1 : k === 'm' ? C.m[i] : C.fg[i]; F.ano = save; return s; };
+  const nA = F.ano ? anterior('n') : 0, mA = F.ano ? anterior('m') : 0, fA = F.ano ? anterior('fg') : 0;
+  const taxa = A.m / popSel() * 1e5;
+  const itens = [
+    ['Acidentes', fmt(A.n), varTxt(A.n, nA)],
+    ['Mortos', fmt(A.m), F.ano ? varTxt(A.m, mA) : `${fmt(A.m / diasNoFiltro(), 1)} por dia`],
+    ['Feridos graves', fmt(A.fg), F.ano ? varTxt(A.fg, fA) : `${fmt(A.fg / diasNoFiltro(), 1)} por dia`],
+    ['Letalidade', fmt(let_(A.m, A.n), 1), 'mortos a cada 100 acidentes'],
+    ['Mortos por 100 mil hab.', fmt(taxa / (F.ano ? 1 : 1), 2), 'por ano, na população dos estados filtrados'],
+  ];
+  $('#kpis').innerHTML = itens.map(([r, v, s]) => `<div class="kpi"><div class="rot">${r}</div><div class="val">${v}</div><div class="var">${s}</div></div>`).join('');
+}
+let calMedida = 'm';
+function calendario() {
+  const v = calMedida === 'm' ? A.diaM : A.dia, anos = anosSel();
+  let vals = []; for (let d = 0; d < ND; d++) if (anos.includes(anoDe(d))) vals.push(v[d]);
+  vals.sort((a, b) => a - b); const lo = vals[Math.floor(vals.length * .02)] || 0, hi = vals[Math.floor(vals.length * .98)] || 1;
+  const pref = calMedida === 'm' ? 'oseq' : 'seq', n = 7;
+  $('#calRampa').style.background = `linear-gradient(90deg, ${[...Array(n).keys()].map(k => css(`--${pref}-${k + (pref === 'seq' ? 1 : 0)}`)).join(',')})`;
+  const cont = $('#calLinhas'); cont.innerHTML = '';
+  for (const a of [2020, 2021, 2022, 2023, 2024, 2025]) {
+    const linha = document.createElement('div'); linha.className = 'cal-linha';
+    linha.innerHTML = `<span class="ano">${a}</span>`;
+    const cv = document.createElement('canvas'); cv.className = 'cal-faixa'; cv.setAttribute('role', 'img');
+    cv.setAttribute('aria-label', `Dias de ${a}`); linha.appendChild(cv); cont.appendChild(linha);
+    const d0 = Math.round((Date.UTC(a, 0, 1) - D0) / 864e5), nd = (a % 4 === 0) ? 366 : 365;
+    const W = cv.clientWidth * devicePixelRatio, H = cv.clientHeight * devicePixelRatio; cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d'), w = W / 366;
+    for (let k = 0; k < nd; k++) {
+      const di = d0 + k; ctx.fillStyle = anos.includes(a) ? rampa(v[di], lo, hi, pref) : css('--surface-2');
+      ctx.fillRect(k * w, 0, Math.ceil(w), H);
+    }
+    cv.onmousemove = e => { const r = cv.getBoundingClientRect(); const k = Math.floor((e.clientX - r.left) / r.width * 366); if (k < 0 || k >= nd) return escondeDica(); const di = d0 + k;
+      const evn = M.dic.ev[M.cal_ev[di]]; mostraDica(e, `<b>${dataTxt(di)}</b> (${DIAS_LONGO[dowDe(di)]})<br>${fmt(A.dia[di])} acidentes · ${fmt(A.diaM[di])} mortos${evn !== 'Nenhum' ? '<br>' + evn + ' — ' + M.dic.td[M.cal_td[di]] : ''}`); };
+    cv.onmouseleave = escondeDica;
+  }
+}
+function geral() {
+  kpis(); calendario();
+  const rot = [...Array(72).keys()].map(i => `${['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][i % 12]}/${String(20 + Math.floor(i / 12))}`);
+  for (const [id, arr, cor] of [['gMesA', A.mes, css('--s1')], ['gMesM', A.mesM, css('--s2')]]) {
+    grafico(id, base('line', {data: {labels: rot, datasets: [{data: [...arr], borderColor: cor, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, tension: .2}]}, plugins: [pandemia]}));
+    G[id].options.scales.x.ticks.maxTicksLimit = 7; G[id].options.scales.y.beginAtZero = false; G[id].update();
+  }
+  const rows = anosSel().map(a => { const y = a - 2020; return [a, A.ano[y], A.anoM[y], A.anoFg[y], let_(A.anoM[y], A.ano[y]), A.anoM[y] / (F.uf !== '' ? M.pop[M.dic.uf[F.uf]][a] : M.dic.uf.reduce((s, u) => s + M.pop[u][a], 0)) * 1e5]; });
+  $('#tAno').innerHTML = `<tr><th>Ano</th><th class="n">Acidentes</th><th class="n">Mortos</th><th class="n">Feridos graves</th><th class="n">Letalidade</th><th class="n">Mortos / 100 mil hab.</th></tr>` +
+    rows.map((r, k) => `<tr><td>${r[0]}${r[0] <= 2021 ? ' <span style="color:var(--ink-3);font-size:12px">(pandemia)</span>' : ''}</td><td class="n">${fmt(r[1])}</td><td class="n">${fmt(r[2])}</td><td class="n">${fmt(r[3])}</td><td class="n">${fmt(r[4], 1)}</td><td class="n">${fmt(r[5], 2)}</td></tr>`).join('');
+}
+
+// ------------------------------------------------------------------ QUANDO
+let calorMedida = 'a';
+function grade(el, linhas, colunas, valor, cor, texto, titulo) {
+  el.style.gridTemplateColumns = `minmax(70px,auto) repeat(${colunas.length}, minmax(22px,1fr))`;
+  let html = '<div></div>' + colunas.map(c => `<div class="rot topo">${c}</div>`).join('');
+  linhas.forEach((l, i) => { html += `<div class="rot">${l}</div>`; colunas.forEach((c, j) => { const v = valor(i, j); const bg = cor(v); html += `<div class="cel" data-i="${i}" data-j="${j}" style="background:${bg};color:${bg === 'transparent' ? 'var(--ink-3)' : textoSobre(bg)}">${texto(v)}</div>`; }); });
+  el.innerHTML = html;
+  el.onmousemove = e => { const c = e.target.closest('.cel'); if (!c) return escondeDica(); mostraDica(e, titulo(+c.dataset.i, +c.dataset.j)); };
+  el.onmouseleave = escondeDica;
+}
+function quando() {
+  const nd = new Float64Array(7); for (let d = 0; d < ND; d++) { if (F.ano && anoDe(d) != F.ano) continue; if (F.td !== '' && M.cal_td[d] != F.td) continue; nd[dowDe(d)]++; }
+  const val = (i, j) => calorMedida === 'a' ? (nd[i] ? A.dh[i * 24 + j] / nd[i] : 0) : (A.dh[i * 24 + j] >= 30 ? let_(A.dhM[i * 24 + j], A.dh[i * 24 + j]) : null);
+  const vs = []; for (let i = 0; i < 7; i++) for (let j = 0; j < 24; j++) { const v = val(i, j); if (v != null) vs.push(v); }
+  const mn = Math.min(...vs), mx = Math.max(...vs), pref = calorMedida === 'a' ? 'seq' : 'oseq';
+  $('#subCalor').textContent = calorMedida === 'a' ? 'Média de acidentes por hora em cada dia da semana.' : 'Mortos a cada 100 acidentes (células com menos de 30 acidentes ficam em branco).';
+  grade($('#calorDH'), DIAS, [...Array(24).keys()].map(h => h + 'h'), val, v => rampa(v, mn, mx, pref), v => v == null ? '' : fmt(v, calorMedida === 'a' && v < 10 ? 1 : 0),
+    (i, j) => `<b>${DIAS_LONGO[i]}, ${j}h</b><br>${fmt(A.dh[i * 24 + j])} acidentes, ${fmt(A.dhM[i * 24 + j])} mortos<br>letalidade ${fmt(let_(A.dhM[i * 24 + j], A.dh[i * 24 + j]), 1)}`);
+  const hrs = [...Array(24).keys()].map(h => h + 'h');
+  grafico('gHoraA', base('bar', {data: {labels: hrs, datasets: [{label: 'Acidentes', data: [...A.hora], ...barra(css('--s1'))}]}}));
+  grafico('gHoraL', base('bar', {data: {labels: hrs, datasets: [{label: 'Letalidade', data: [...A.hora].map((n, h) => let_(A.horaM[h], n)), ...barra(css('--s2'))}]}}));
+  // média por dia em cada mês do ano
+  const nm = new Float64Array(12), am = new Float64Array(12);
+  for (let d = 0; d < ND; d++) { if (F.ano && anoDe(d) != F.ano) continue; if (F.td !== '' && M.cal_td[d] != F.td) continue; const mo = dataDe(d).getUTCMonth(); nm[mo]++; am[mo] += A.dia[d]; }
+  grafico('gMesAno', base('bar', {data: {labels: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'], datasets: [{label: 'Acidentes por dia', data: [...am].map((v, k) => nm[k] ? v / nm[k] : null), ...barra(css('--s1'))}]}}));
+  const ordF = [1, 2, 3, 0];
+  grafico('gFase', base('bar', {data: {labels: ordF.map(k => M.dic.fd[k]), datasets: [{label: 'Letalidade', data: ordF.map(k => let_(A.fdM[k], A.fd[k])), ...barra(css('--s2'))}]}}));
+  let mxH = 0, mxL = 0; for (let h = 1; h < 24; h++) { if (A.hora[h] > A.hora[mxH]) mxH = h; if (let_(A.horaM[h], A.hora[h]) > let_(A.horaM[mxL], A.hora[mxL])) mxL = h; }
+  const noite = [0, 1, 2, 3, 4, 5, 18, 19, 20, 21, 22, 23]; let nN = 0, mN = 0; for (const h of noite) { nN += A.hora[h]; mN += A.horaM[h]; }
+  $('#achQuando').innerHTML = `<b>Mais acidentes não significa mais mortes.</b> O pico de acidentes é às ${mxH}h, mas a hora mais letal é ${mxL}h. Das 18h às 5h acontecem ${fmt(nN / A.n * 100, 0)}% dos acidentes e ${fmt(mN / A.m * 100, 0)}% das mortes.`;
+}
+
+// ------------------------------------------------------------------ DATAS ESPECIAIS
+function datas() {
+  const ndTd = new Float64Array(6), ndEv = new Float64Array(13);
+  for (let d = 0; d < ND; d++) { if (F.ano && anoDe(d) != F.ano) continue; ndTd[M.cal_td[d]]++; ndEv[M.cal_ev[d]]++; }
+  ndEv[M.dic.ev.indexOf('São João')] = anosSel().length;  // 1 dia (24/06) por ano, só no Nordeste
+  const ordem = [0, 2, 3, 5, 4, 1].filter(k => ndTd[k] > 0);
+  const corTd = k => k === 1 ? css('--s2') : k === 0 ? css('--muted-bar') : css('--s1');
+  grafico('gTdM', base('bar', {data: {labels: ordem.map(k => M.dic.td[k]), datasets: [{label: 'Mortos por dia', data: ordem.map(k => A.tdM[k] / ndTd[k]), ...barra(ordem.map(corTd))}]}}));
+  grafico('gTdA', base('bar', {data: {labels: ordem.map(k => M.dic.td[k]), datasets: [{label: 'Acidentes por dia', data: ordem.map(k => A.td[k] / ndTd[k]), ...barra(ordem.map(corTd))}]}}));
+  // curva antes/depois: índice = acidentes do dia / média do mesmo dia da semana nos dias comuns
+  const soma = new Float64Array(7), cont = new Float64Array(7);
+  for (let d = 0; d < ND; d++) { if (F.ano && anoDe(d) != F.ano) continue; if (M.cal_td[d] <= 1) { soma[dowDe(d)] += A.dia[d]; cont[dowDe(d)]++; } }
+  const idx = new Float64Array(7), nidx = new Float64Array(7);
+  for (let d = 0; d < ND; d++) { if (F.ano && anoDe(d) != F.ano) continue; const j = DIA_JAN[d]; if (j < 0 || j > 6) continue; const esp = soma[dowDe(d)] / cont[dowDe(d)]; if (esp > 0) { idx[j] += A.dia[d] / esp * 100; nidx[j]++; } }
+  const curva = [...idx].map((v, j) => nidx[j] ? v / nidx[j] : null);
+  grafico('gCurva', base('line', {data: {labels: ['3 dias antes', '2 dias antes', 'véspera', 'feriado', 'dia seguinte', '2 dias depois', '3 dias depois'], datasets: [{label: 'Índice', data: curva, borderColor: css('--s1'), borderWidth: 2, pointRadius: 5, pointBackgroundColor: css('--s1'), pointBorderColor: css('--surface'), pointBorderWidth: 2}]}, plugins: [linhaRef(100, 'dia normal = 100')]}));
+  G.gCurva.options.scales.y.beginAtZero = false; G.gCurva.options.scales.y.suggestedMin = 85; G.gCurva.options.scales.y.suggestedMax = 115; G.gCurva.update();
+  const evs = M.dic.ev.map((e, k) => [e, k]).filter(([e, k]) => k > 0 && A.ev[k] > 0 && ndEv[k] > 0).map(([e, k]) => [e === 'São João' ? 'São João (só Nordeste)' : e, A.evM[k] / ndEv[k], A.ev[k] / ndEv[k]]).sort((a, b) => b[1] - a[1]);
+  const mediaUtil = ndTd[0] ? A.tdM[0] / ndTd[0] : null;
+  grafico('gEv', base('bar', {data: {labels: evs.map(e => e[0]), datasets: [{label: 'Mortos por dia', data: evs.map(e => e[1]), ...barraH(css('--s2'))}]},
+    options: {...base('bar').options, indexAxis: 'y', scales: {x: {...base('bar').options.scales.y, beginAtZero: true}, y: {...base('bar').options.scales.x}}}}));
+  G.gEv.options.plugins.tooltip.callbacks = {label: c => `${fmt(c.raw, 1)} mortos por dia`}; G.gEv.update();
+  const car = E.carnaval.por_ano;
+  grafico('gCarnaval', base('bar', {data: {labels: car.map(c => `${c.ano} ${c.festa ? '(com festa)' : '(sem festa)'}`), datasets: [{label: 'Índice de acidentes', data: car.map(c => c.indice_acidentes), ...barra(car.map(c => c.festa ? css('--s1') : css('--muted-bar')))}]}, plugins: [linhaRef(100, '100 = normal')]}));
+  $('#carCom').textContent = fmt(E.carnaval.indice_acidentes_com_festa, 1); $('#carSem').textContent = fmt(E.carnaval.indice_acidentes_sem_festa, 1);
+  const fds = A.tdM[1] / ndTd[1], fer = (A.tdM[3] + A.tdM[4]) / (ndTd[3] + ndTd[4]);
+  $('#achDatas').innerHTML = ndTd[1] && (ndTd[3] + ndTd[4]) ? `<b>O fim de semana comum mata mais que o feriado.</b> São ${fmt(fds, 1)} mortos por dia nos fins de semana comuns, contra ${fmt(fer, 1)} nos feriados e feriadões e ${fmt(mediaUtil, 1)} nos dias úteis. O risco extra do feriado está na ida: até ${fmt(Math.max(curva[0] || 0, curva[1] || 0, curva[2] || 0) - 100, 0)}% mais acidentes nos dias anteriores.` : 'Ajuste o filtro de tipo de dia para comparar os grupos.';
+}
+
+// ------------------------------------------------------------------ CAUSAS
+function causas() {
+  const media = let_(A.m, A.n);
+  const pts = M.dic.gc.map((g, k) => ({x: A.gc[k] / 1000, y: let_(A.gcM[k], A.gc[k]), r: Math.max(4, Math.sqrt(A.gcM[k]) / 4), g, m: A.gcM[k]})).filter(p => p.x > 0);
+  const totM = pts.reduce((s, p) => s + p.m, 0);
+  const rotulos = {id: 'rotulos', afterDatasetsDraw(ch) { const {ctx} = ch; ctx.save(); ctx.fillStyle = css('--ink'); ctx.font = '12px Barlow, system-ui, sans-serif'; const usados = []; ch.getDatasetMeta(0).data.forEach((el, k) => { const p = pts[k]; if (p.m / totM < 0.05) return; const dir = el.x > ch.chartArea.right - 170 || usados.some(u => Math.abs(u[1] - el.y) < 16 && el.x > u[0]) ? 'right' : 'left'; if (p.g === 'Velocidade') { ctx.textAlign = 'center'; ctx.fillText(p.g, el.x, el.y + p.r + 14); return; } ctx.textAlign = dir; ctx.fillText(p.g, el.x + (dir === 'right' ? -p.r - 4 : p.r + 4), el.y + 4); usados.push([el.x, el.y]); }); ctx.restore(); }};
+  const cfg = base('bubble', {data: {datasets: [{data: pts, backgroundColor: css('--s1') + 'cc', borderColor: css('--surface'), borderWidth: 2}]}, plugins: [rotulos, linhaRef(media, 'média')]});
+  cfg.options.interaction = {mode: 'nearest', intersect: true};
+  cfg.options.plugins.tooltip.callbacks = {label: c => `${c.raw.g}: ${fmt(c.raw.x * 1000)} acidentes, ${fmt(c.raw.m)} mortos, letalidade ${fmt(c.raw.y, 1)}`};
+  cfg.options.scales.x.title = {display: true, text: 'Acidentes (milhares)', color: css('--ink-3')}; cfg.options.scales.y.title = {display: true, text: 'Mortos a cada 100 acidentes', color: css('--ink-3')};
+  cfg.options.scales.x.grid = {color: css('--line')};
+  grafico('gCausa', cfg);
+  const tipos = M.dic.ta.map((t, k) => [t, A.ta[k] / A.n * 100, A.taM[k] / (A.m || 1) * 100]).filter(t => t[1] > 0.3 || t[2] > 0.3).sort((a, b) => b[2] - a[2]).slice(0, 10);
+  const c2 = base('bar', {data: {labels: tipos.map(t => t[0]), datasets: [{label: '% dos acidentes', data: tipos.map(t => t[1]), ...barraH(css('--s1'))}, {label: '% das mortes', data: tipos.map(t => t[2]), ...barraH(css('--s2'))}]}});
+  c2.options.indexAxis = 'y'; c2.options.plugins.legend.display = true; c2.options.plugins.legend.position = 'top';
+  c2.options.scales = {x: {...c2.options.scales.y, ticks: {...c2.options.scales.y.ticks, callback: v => v + '%'}}, y: {...c2.options.scales.x}};
+  c2.options.plugins.tooltip.callbacks = {label: c => `${c.dataset.label}: ${fmt(c.raw, 1)}%`};
+  grafico('gTipo', c2);
+  const ord = M.dic.gc.map((g, k) => k).sort((a, b) => let_(A.gcM[b], A.gc[b]) - let_(A.gcM[a], A.gc[a])).filter(k => A.gc[k] > 0);
+  const val = (i, j) => { const k = ord[i]; return A.gcF[k * 4 + j] >= 100 ? let_(A.gcFM[k * 4 + j], A.gcF[k * 4 + j]) : null; };
+  const vs = []; ord.forEach((k, i) => { for (let j = 0; j < 4; j++) { const v = val(i, j); if (v != null) vs.push(v); } });
+  const el = $('#calorCausa'); el.style.maxWidth = '820px';
+  grade(el, ord.map(k => M.dic.gc[k]), FAIXAS, val, v => rampa(v, Math.min(...vs), Math.max(...vs), 'oseq'), v => v == null ? '' : fmt(v, 1),
+    (i, j) => { const k = ord[i]; return `<b>${M.dic.gc[k]} — ${FAIXAS[j]}</b><br>${fmt(A.gcF[k * 4 + j])} acidentes, ${fmt(A.gcFM[k * 4 + j])} mortos`; });
+  el.style.gridTemplateColumns = 'minmax(200px,auto) repeat(4, minmax(60px,1fr))';
+  const fr = M.dic.ta.indexOf('Colisão frontal'), pe = M.dic.gc.indexOf('Pedestre');
+  $('#achCausas').innerHTML = `<b>A colisão frontal é o tipo de acidente que mais mata.</b> São ${fmt(A.ta[fr] / A.n * 100, 1)}% dos acidentes e ${fmt(A.taM[fr] / A.m * 100, 1)}% das mortes. Acidentes com pedestres são ${fmt(A.gc[pe] / A.n * 100, 1)}% dos casos e ${fmt(A.gcM[pe] / A.m * 100, 1)}% das mortes.`;
+}
+
+// ------------------------------------------------------------------ ONDE
+const LAD = {RR: [3, 0], AP: [4, 0], AM: [2, 1], PA: [3, 1], MA: [4, 1], CE: [5, 1], RN: [6, 1], AC: [1, 2], RO: [2, 2], TO: [3, 2], PI: [4, 2], PE: [5, 2], PB: [6, 2],
+  MT: [2, 3], GO: [3, 3], BA: [4, 3], SE: [5, 3], AL: [6, 3], MS: [2, 4], DF: [3, 4], MG: [4, 4], ES: [5, 4], PR: [2, 5], SP: [3, 5], RJ: [4, 5], SC: [2, 6], RS: [2, 7]};
+let ufMedida = 'mh', mapa, camada;
+function onde() {
+  // estados: ignoram o filtro de estado, para permitir a comparação
+  const ufN = new Float64Array(27), ufM = new Float64Array(27);
+  for (let i = 0; i < M.n; i++) { if (!passa(i, true)) continue; ufN[C.uf[i]]++; ufM[C.uf[i]] += C.m[i]; }
+  const val = k => ufMedida === 'mh' ? ufM[k] / popSel(k) * 1e5 : let_(ufM[k], ufN[k]);
+  const vs = M.dic.uf.map((u, k) => val(k)), mn = Math.min(...vs), mx = Math.max(...vs);
+  $('#subUf').textContent = ufMedida === 'mh' ? 'Mortos por 100 mil habitantes ao ano. Clique em um estado para filtrar.' : 'Mortos a cada 100 acidentes. Clique em um estado para filtrar.';
+  const cel = Array(64).fill('<div></div>');
+  M.dic.uf.forEach((u, k) => { const [x, y] = LAD[u]; const bg = rampa(vs[k], mn, mx, 'seq'); cel[y * 8 + x] = `<div class="lad ${F.uf !== '' && +F.uf === k ? 'sel' : ''}" tabindex="0" role="button" aria-label="${u}: ${fmt(vs[k], 1)}" data-k="${k}" style="background:${bg};color:${textoSobre(bg)}">${u}<small>${fmt(vs[k], 1)}</small></div>`; });
+  const el = $('#ladrilhos'); el.innerHTML = cel.join('');
+  el.onclick = e => { const t = e.target.closest('.lad'); if (!t) return; F.uf = F.uf == t.dataset.k ? '' : t.dataset.k; $('#fUf').value = F.uf; atualiza(); };
+  el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.target.click(); } };
+  el.onmousemove = e => { const t = e.target.closest('.lad'); if (!t) return escondeDica(); const k = +t.dataset.k; mostraDica(e, `<b>${M.dic.uf[k]}</b><br>${fmt(ufN[k])} acidentes, ${fmt(ufM[k])} mortos<br>letalidade ${fmt(let_(ufM[k], ufN[k]), 1)} · ${fmt(ufM[k] / popSel(k) * 1e5, 2)} mortos/100 mil hab./ano`); };
+  el.onmouseleave = escondeDica;
+  // trechos
+  const tr = []; for (let t = 1; t < A.tr.length; t++) if (A.trM[t] > 0) tr.push(t);
+  tr.sort((a, b) => A.trM[b] - A.trM[a] || A.tr[b] - A.tr[a]);
+  let acum = 0; const totM = A.m; let n50 = 0; for (const t of tr) { acum += A.trM[t]; n50++; if (acum >= totM / 2) break; }
+  const ativos = A.tr.reduce((s, v, t) => s + (t > 0 && v > 0 ? 1 : 0), 0);
+  $('#subTrechos').textContent = `Metade das mortes do filtro atual ocorreu em ${fmt(n50)} dos ${fmt(ativos)} trechos com acidentes (${fmt(n50 / ativos * 100, 1)}%).`;
+  const top = tr.slice(0, 20), mxM = A.trM[top[0]] || 1;
+  $('#tTrechos').innerHTML = `<tr><th>#</th><th>Trecho</th><th>Município</th><th class="n">Acidentes</th><th class="n">Mortos</th><th class="n">Letalidade</th></tr>` +
+    top.map((t, k) => { const [nome, , , , mun] = M.trechos[t - 1]; return `<tr><td>${k + 1}</td><td>${nome}</td><td>${mun}</td><td class="n">${fmt(A.tr[t])}</td><td class="n"><span class="barra-in" style="width:${A.trM[t] / mxM * 60}px"></span>${fmt(A.trM[t])}</td><td class="n">${fmt(let_(A.trM[t], A.tr[t]), 1)}</td></tr>`; }).join('');
+  if (window.L) {
+    if (!mapa) { mapa = L.map('mapa', {scrollWheelZoom: false}).setView([-14.5, -51], 4); L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 12}).addTo(mapa); }
+    if (camada) camada.remove(); camada = L.layerGroup().addTo(mapa);
+    const t150 = tr.slice(0, 150), mx = A.trM[t150[0]] || 1;
+    for (const t of t150) { const [nome, , la, lo, mun] = M.trechos[t - 1]; if (la == null) continue;
+      L.circleMarker([la, lo], {radius: 3 + 14 * Math.sqrt(A.trM[t] / mx), color: '#ffffff', weight: 1.5, fillColor: css('--s2'), fillOpacity: .8})
+        .bindTooltip(`<b>${nome}</b><br>${mun}<br>${fmt(A.trM[t])} mortos, ${fmt(A.tr[t])} acidentes`).addTo(camada); }
+    setTimeout(() => mapa.invalidateSize(), 50);
+  }
+  grafico('gUrb', base('bar', {data: {labels: ['Rural', 'Urbano'], datasets: [{label: 'Letalidade', data: [let_(A.urbM[0], A.urb[0]), let_(A.urbM[1], A.urb[1])], ...barra(css('--s2'))}]}}));
+  G.gUrb.options.plugins.tooltip.callbacks = {label: c => `letalidade ${fmt(c.raw, 1)} (${fmt(A.urb[c.dataIndex])} acidentes)`}; G.gUrb.update();
+  grafico('gPista', base('bar', {data: {labels: M.dic.tp, datasets: [{label: 'Letalidade', data: M.dic.tp.map((p, k) => let_(A.tpM[k], A.tp[k])), ...barra(css('--s2'))}]}}));
+  G.gPista.options.plugins.tooltip.callbacks = {label: c => `letalidade ${fmt(c.raw, 1)} (${fmt(A.tp[c.dataIndex])} acidentes)`}; G.gPista.update();
+  $('#achOnde').innerHTML = `<b>As mortes se concentram em poucos lugares.</b> ${fmt(n50 / ativos * 100, 1)}% dos trechos de 10 km respondem por metade das mortes. Nos trechos rurais, a letalidade é ${fmt(let_(A.urbM[0], A.urb[0]), 1)}, contra ${fmt(let_(A.urbM[1], A.urb[1]), 1)} nos urbanos.`;
+}
+
+// ------------------------------------------------------------------ CLIMA
+function clima() {
+  const ord = [0, 1, 2, 3];
+  const cores = [css('--muted-bar'), css('--seq-3'), css('--seq-5'), css('--seq-7')];
+  grafico('gChuva', base('bar', {data: {labels: ord.map(k => M.dic.ch[k]), datasets: [{label: 'Letalidade', data: ord.map(k => let_(A.chM[k], A.ch[k])), ...barra(cores)}]}}));
+  G.gChuva.options.plugins.tooltip.callbacks = {label: c => `letalidade ${fmt(c.raw, 1)} (${fmt(A.ch[c.dataIndex])} acidentes)`}; G.gChuva.update();
+  const cms = M.dic.cm.map((c, k) => [c, A.cm[k], let_(A.cmM[k], A.cm[k])]).filter(c => c[1] > 0).sort((a, b) => b[1] - a[1]);
+  const c2 = base('bar', {data: {labels: cms.map(c => c[0]), datasets: [{label: 'Acidentes', data: cms.map(c => c[1]), ...barraH(css('--s1'))}]}});
+  c2.options.indexAxis = 'y'; c2.options.scales = {x: {...c2.options.scales.y}, y: {...c2.options.scales.x}};
+  c2.options.plugins.tooltip.callbacks = {label: c => `${fmt(c.raw)} acidentes, letalidade ${fmt(cms[c.dataIndex][2], 1)}`};
+  grafico('gCm', c2);
+  const comDado = A.ch[0] + A.ch[1] + A.ch[2] + A.ch[3], comChuva = A.ch[1] + A.ch[2] + A.ch[3];
+  const H4 = E.H.H4;
+  $('#achClima').innerHTML = `<b>A chuva aumenta os acidentes, mas não os torna mais letais.</b> Choveu em ${fmt(H4.pct_horas_com_chuva_nas_estacoes, 1)}% das horas medidas, mas em ${fmt(comDado ? comChuva / comDado * 100 : null, 1)}% dos acidentes do filtro atual. A letalidade com chuva é ${fmt(let_(A.chM[1] + A.chM[2] + A.chM[3], comChuva), 1)}, contra ${fmt(let_(A.chM[0], A.ch[0]), 1)} sem chuva.`;
+  const cc = E.concordancia_prf_inmet_3h;
+  $('#concord').innerHTML = `<p>Quando o agente da PRF anotou chuva ou garoa, a estação do INMET mediu chuva nas 3 horas anteriores em <b>${fmt(cc.prf_chuva_inmet_chuva, 1)}%</b> dos casos. Quando não anotou, a estação mediu chuva em só <b>${fmt(cc.prf_sem_chuva_inmet_chuva, 1)}%</b>. O registro da PRF é coerente com a medição, e as diferenças vêm da chuva localizada e da distância até a estação (mediana de 17 km).</p><p class="nota">${fmt(E.cobertura_clima_pct, 1)}% dos acidentes têm uma estação ativa a até 50 km; os demais aparecem como “Sem dado”.</p>`;
+}
+
+// ------------------------------------------------------------------ RAIO-X POR ESTADO
+function desenhaRaioX() {
+  const k = +$('#rxUf').value; if (isNaN(k)) return;
+  const u = agregaUf(k), b = agregaUf(null), uf = M.dic.uf[k];
+  const pU = popSel(k), pB = M.dic.uf.reduce((s, x, i) => s + popSel(i), 0);
+  const topCausa = r => { let mx = 0; r.gcM.forEach((v, i) => { if (v > r.gcM[mx]) mx = i; }); return M.dic.gc[mx]; };
+  const linhas = [
+    ['Acidentes', fmt(u.n), fmt(b.n)], ['Mortos', fmt(u.m), fmt(b.m)],
+    ['Letalidade (mortos/100 acidentes)', fmt(let_(u.m, u.n), 1), fmt(let_(b.m, b.n), 1)],
+    ['Mortos por 100 mil hab./ano', fmt(u.m / pU * 1e5, 2), fmt(b.m / pB * 1e5, 2)],
+    ['% dos acidentes à noite e de madrugada', fmt(u.noite / u.n * 100, 1) + '%', fmt(b.noite / b.n * 100, 1) + '%'],
+    ['% dos acidentes em pista simples', fmt(u.simples / u.n * 100, 1) + '%', fmt(b.simples / b.n * 100, 1) + '%'],
+    ['% dos acidentes em trecho rural', fmt(u.rural / u.n * 100, 1) + '%', fmt(b.rural / b.n * 100, 1) + '%'],
+    ['Causa com mais mortes', topCausa(u), topCausa(b)],
+  ];
+  $('#rxTit').textContent = `${uf} comparado ao Brasil`;
+  $('#tRx').innerHTML = `<tr><th>Indicador</th><th class="n">${uf}</th><th class="n">Brasil</th></tr>` + linhas.map(l => `<tr><td>${l[0]}</td><td class="n">${l[1]}</td><td class="n">${l[2]}</td></tr>`).join('');
+  const c = base('bar', {data: {labels: FAIXAS, datasets: [{label: uf, data: [0, 1, 2, 3].map(j => let_(u.fM[j], u.f[j])), ...barra(css('--s2'))}, {label: 'Brasil', data: [0, 1, 2, 3].map(j => let_(b.fM[j], b.f[j])), ...barra(css('--muted-bar'))}]}});
+  c.options.plugins.legend.display = true; c.options.plugins.legend.position = 'top';
+  grafico('gRx', c);
+  const tn = new Float64Array(M.trechos.length + 1), tm = new Float64Array(M.trechos.length + 1);
+  for (let i = 0; i < M.n; i++) { if (C.uf[i] != k || !passa(i, true)) continue; tn[C.tr[i]]++; tm[C.tr[i]] += C.m[i]; }
+  const ids = []; for (let t = 1; t < tn.length; t++) if (tm[t] > 0) ids.push(t); ids.sort((a, b) => tm[b] - tm[a]);
+  $('#tRxTr').innerHTML = `<tr><th>#</th><th>Trecho</th><th>Município</th><th class="n">Acidentes</th><th class="n">Mortos</th><th class="n">Letalidade</th></tr>` +
+    ids.slice(0, 10).map((t, i) => `<tr><td>${i + 1}</td><td>${M.trechos[t - 1][0]}</td><td>${M.trechos[t - 1][4]}</td><td class="n">${fmt(tn[t])}</td><td class="n">${fmt(tm[t])}</td><td class="n">${fmt(let_(tm[t], tn[t]), 1)}</td></tr>`).join('');
+}
+
+// ------------------------------------------------------------------ DIAGNÓSTICO (resultados fixos)
+function diagnostico() {
+  const or = E.logistica.odds_ratios.filter(o => !o.fator.includes('Sem dado')).sort((a, b) => b.odds_ratio - a.odds_ratio);
+  const W = 640, lh = 24, alt = or.length * lh + 40, x0 = 250, x1 = W - 20, lmin = Math.log(0.25), lmax = Math.log(10);
+  const X = v => x0 + (Math.log(v) - lmin) / (lmax - lmin) * (x1 - x0);
+  let s = `<svg viewBox="0 0 ${W} ${alt}" width="100%" role="img" aria-label="Razões de chances da regressão logística" style="font-family:Barlow,system-ui,sans-serif;font-size:12px">`;
+  for (const t of [0.25, 0.5, 1, 2, 5, 10]) s += `<line x1="${X(t)}" x2="${X(t)}" y1="8" y2="${alt - 26}" stroke="${t === 1 ? css('--ink-3') : css('--line')}" ${t === 1 ? 'stroke-dasharray="4 4"' : ''}/><text x="${X(t)}" y="${alt - 10}" text-anchor="middle" fill="${css('--ink-3')}">${String(t).replace('.', ',')}</text>`;
+  or.forEach((o, i) => { const y = 18 + i * lh, cor = o.odds_ratio > 1 ? css('--s2') : css('--s1');
+    s += `<g><title>${o.fator}: ${fmt(o.odds_ratio, 2)} (IC 95% ${fmt(o.ic95_inf, 2)} a ${fmt(o.ic95_sup, 2)})</title><text x="${x0 - 10}" y="${y + 4}" text-anchor="end" fill="${css('--ink')}">${o.fator}</text>
+    <line x1="${X(Math.max(o.ic95_inf, .25))}" x2="${X(Math.min(o.ic95_sup, 10))}" y1="${y}" y2="${y}" stroke="${css('--line-strong')}" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="${X(o.odds_ratio)}" cy="${y}" r="5.5" fill="${cor}" stroke="${css('--surface')}" stroke-width="2"/><text x="${Math.min(X(Math.min(o.ic95_sup, 10)) + 8, W - 4)}" y="${y + 4}" text-anchor="${X(Math.min(o.ic95_sup, 10)) + 8 > W - 30 ? 'end' : 'start'}" fill="${css('--ink-2')}" font-size="11">${fmt(o.odds_ratio, 2)}</text></g>`; });
+  $('#floresta').innerHTML = s + '</svg>';
+  const H = E.H, tag = t => t === 'ok' ? '<span class="tag ok">Confirmada</span>' : t === 'par' ? '<span class="tag par">Parcial</span>' : '<span class="tag nao">Rejeitada</span>';
+  const hs = [
+    ['H1', 'Feriados têm mais acidentes e são mais letais', 'nao', `Controlando dia da semana, mês e ano, a data especial não muda as mortes (+${fmt(H.H1.modelo_mortos_dia['efeito_data_especial_%'], 1)}%; p = ${fmt(H.H1.modelo_mortos_dia.p, 2)}).`],
+    ['H2', 'Madrugadas de fim de semana são mais letais', 'par', `Letalidade ${fmt(H.H2.letalidade_madrugada_fds, 1)} no fim de semana e ${fmt(H.H2.letalidade_madrugada_dia_util, 1)} nos dias úteis: a madrugada é letal em qualquer dia.`],
+    ['H3', 'O pico tem mais acidentes e menor letalidade', 'ok', `${fmt(H.H3.pct_acidentes_pico, 0)}% dos acidentes em 25% das horas; ρ = ${fmt(H.H3.spearman_volume_letalidade, 2)}.`],
+    ['H4', 'A chuva aumenta a frequência, não a letalidade', 'ok', `${fmt((H.H4.razao_frequencia - 1) * 100, 0)}% mais acidentes com chuva; risco de morte ${fmt(H.H4.risco_relativo_fatal, 2)} vez o normal.`],
+    ['H5', 'Urbano tem mais acidentes; rural, mais letalidade', 'par', `Rural: letalidade ${fmt(H.H5.letalidade_rural, 1)} contra ${fmt(H.H5.letalidade_urbano, 1)}; mas o rural também tem mais acidentes.`],
+    ['H6', 'Poucos trechos concentram as mortes', 'ok', `${fmt(H.H6.pct_trechos_para_50pct_mortes, 1)}% dos trechos têm 50% das mortes; Gini ${fmt(H.H6.gini_mortes_por_trecho, 2)}.`],
+    ['H7', 'Acidentes cresceram após a pandemia', 'ok', `+${fmt(H.H7['var_acidentes_2021_2025_%'], 1)}% de 2021 a 2025 (p < 0,001).`],
+  ];
+  $('#tHip').innerHTML = `<tr><th></th><th>Hipótese</th><th>Resultado</th></tr>` + hs.map(h => `<tr><td><b>${h[0]}</b></td><td>${h[1]}<div style="font-size:12.5px;color:var(--ink-3)">${h[3]}</div></td><td>${tag(h[2])}</td></tr>`).join('');
+  const nomes = {acidentes: 'Acidentes', mortos: 'Mortos', letalidade: 'Letalidade', pct_acidentes_com_chuva: '% com chuva', temperatura_media: 'Temperatura', fim_de_semana: 'Fim de semana', data_especial: 'Data especial'};
+  const ks = Object.keys(nomes), co = E.correlacao;
+  const corDiv = v => { const t = Math.min(1, Math.abs(v)); const k = Math.round(t * 6); return v >= 0 ? css(`--oseq-${k}`) : css(`--seq-${Math.max(1, k + 1)}`); };
+  grade($('#calorCorr'), ks.map(k => nomes[k]), ks.map(k => nomes[k]), (i, j) => co[ks[j]][ks[i]], v => Math.abs(v) < .05 ? css('--surface-2') : corDiv(v), v => fmt(v, 2), (i, j) => `${nomes[ks[i]]} × ${nomes[ks[j]]}: ρ = ${fmt(co[ks[j]][ks[i]], 2)}`);
+  $('#calorCorr').style.gridTemplateColumns = 'minmax(110px,auto) repeat(7, minmax(60px,1fr))';
+  $$('#calorCorr .cel').forEach(c => c.style.minHeight = '34px');
+}
+
+// ------------------------------------------------------------------ PREVISÃO
+function previsao() {
+  const p = E.previsao, rot = p.data.map(d => d.slice(8, 10) + '/' + d.slice(5, 7));
+  const c = base('line', {data: {labels: rot, datasets: [
+    {label: 'Limite superior', data: p.acid_sup, borderWidth: 0, pointRadius: 0, fill: '+1', backgroundColor: css('--seq-1') + '99'},
+    {label: 'Limite inferior', data: p.acid_inf, borderWidth: 0, pointRadius: 0, fill: false},
+    {label: 'Acidentes previstos', data: p.acidentes, borderColor: css('--s1'), borderWidth: 2, pointRadius: 0, pointHoverRadius: 4}]}});
+  c.options.scales.x.ticks.maxTicksLimit = 12; c.options.scales.y.beginAtZero = false;
+  c.options.plugins.tooltip.callbacks = {title: it => { const k = it[0].dataIndex; return `${p.data[k].split('-').reverse().join('/')}${p.evento[k] !== 'Nenhum' ? ' — ' + p.evento[k] : ''}`; }, label: it => `${it.dataset.label}: ${fmt(it.raw, 0)}`};
+  grafico('gPrev', c);
+  const fer = [...E.previsao_feriados].sort((a, b) => b.mortos_por_dia - a.mortos_por_dia);
+  const c2 = base('bar', {data: {labels: fer.map(f => f.grupo_evento), datasets: [{label: 'Mortes previstas por dia', data: fer.map(f => f.mortos_por_dia), ...barraH(css('--s2'))}]}});
+  c2.options.indexAxis = 'y'; c2.options.scales = {x: {...c2.options.scales.y}, y: {...c2.options.scales.x}};
+  c2.options.plugins.tooltip.callbacks = {label: it => { const f = fer[it.dataIndex]; return `${fmt(f.mortos_por_dia, 1)} mortes por dia (${f.dias} dias, ${fmt(f.mortos_previstos, 0)} no total)`; }};
+  grafico('gPrevFer', c2);
+  const v = E.validacao;
+  $('#tVal').innerHTML = `<tr><th></th><th class="n">Acidentes</th><th class="n">Mortos</th></tr>
+    <tr><td>Erro médio por dia (modelo)</td><td class="n">${fmt(v.acidentes.mae_modelo, 1)}</td><td class="n">${fmt(v.mortos.mae_modelo, 1)}</td></tr>
+    <tr><td>Erro médio por dia (previsão ingênua)</td><td class="n">${fmt(v.acidentes.mae_ingenuo_media_2024_por_dia_semana, 1)}</td><td class="n">${fmt(v.mortos.mae_ingenuo_media_2024_por_dia_semana, 1)}</td></tr>
+    <tr><td>Erro percentual médio por dia</td><td class="n">${fmt(v.acidentes['mape_modelo_%'], 1)}%</td><td class="n">${fmt(v.mortos['mape_modelo_%'], 1)}%</td></tr>
+    <tr><td>Total de 2025: real</td><td class="n">${fmt(v.acidentes.total_2025_real)}</td><td class="n">${fmt(v.mortos.total_2025_real)}</td></tr>
+    <tr><td>Total de 2025: previsto</td><td class="n">${fmt(v.acidentes.total_2025_previsto)}</td><td class="n">${fmt(v.mortos.total_2025_previsto)}</td></tr>`;
+  $('#achPrev').innerHTML = `<b>Para 2026, o modelo prevê ${fmt(E.previsao_total.acidentes)} acidentes e ${fmt(E.previsao_total.mortos)} mortes.</b> Entre os feriados, Independência, Aparecida e Finados devem ter cerca de 23 mortes por dia; o Carnaval, o menor valor (${fmt(E.previsao_feriados.find(f => f.grupo_evento === 'Carnaval').mortos_por_dia, 1)}). Resultado fixo do estudo, não muda com os filtros.`;
+}
+
+// ------------------------------------------------------------------ RECOMENDAÇÕES
+const RECS = [
+  ['Prioridade 1', 'Separar os sentidos de tráfego nas pistas simples mais letais', 'Colisões frontais: 6,8% dos acidentes e 31% das mortes. Pista simples aumenta em 84% a chance de morte.', 'causas', 'DNIT, concessionárias e PRF'],
+  ['Prioridade 1', 'Plano de ação para os trechos críticos', '15,5% dos trechos de 10 km concentram metade das mortes.', 'onde', 'PRF, DNIT e secretarias estaduais'],
+  ['Prioridade 2', 'Operação noite e madrugada, todos os dias', 'De madrugada, a chance de morte é 2,1 vezes a da tarde, também nos dias úteis.', 'quando', 'PRF, DNIT e concessionárias'],
+  ['Prioridade 2', 'Calendário de operações baseado em risco', 'Fins de semana comuns matam mais que feriados; o risco do feriado está nos dias de ida.', 'datas', 'PRF, SAMU e resgate'],
+  ['Prioridade 3', 'Proteção de pedestres nas rodovias que cruzam cidades', 'Acidentes com pedestres têm 8 vezes mais chance de morte: 3% dos casos, 12% das mortes.', 'causas', 'DNIT, prefeituras e Detrans'],
+  ['Prioridade 4', 'Alerta de chuva para motoristas', 'Com chuva, os acidentes são 22% mais frequentes.', 'clima', 'INMET, DNIT e PRF'],
+];
+function recomendacoes() {
+  $('#recs').innerHTML = RECS.map(r => `<article class="rec c4"><span class="prio">${r[0]} · ${r[4]}</span><h3>${r[1]}</h3><p class="prova">${r[2]}</p><button data-ir="${r[3]}">Ver a evidência</button></article>`).join('');
+  $('#recs').onclick = e => { const b = e.target.closest('[data-ir]'); if (b) abre(b.dataset.ir); };
+  const tr = []; for (let t = 1; t < A.tr.length; t++) if (A.trM[t] > 0) tr.push(t); tr.sort((a, b) => A.trM[b] - A.trM[a]);
+  $('#tFisc').innerHTML = `<tr><th>Trecho</th><th>Município</th><th class="n">Mortos</th><th>Faixa horária mais letal</th><th>Dia com mais mortes</th></tr>` + tr.slice(0, 15).map(t => {
+    let fx = 0, dw = 0; for (let j = 1; j < 4; j++) if (A.trFM[t * 4 + j] > A.trFM[t * 4 + fx]) fx = j; for (let j = 1; j < 7; j++) if (A.trDM[t * 7 + j] > A.trDM[t * 7 + dw]) dw = j;
+    return `<tr><td>${M.trechos[t - 1][0]}</td><td>${M.trechos[t - 1][4]}</td><td class="n">${fmt(A.trM[t])}</td><td>${FAIXAS[fx]} (${fmt(A.trFM[t * 4 + fx])})</td><td>${DIAS_LONGO[dw]} (${fmt(A.trDM[t * 7 + dw])})</td></tr>`; }).join('');
+}
+
+// ------------------------------------------------------------------ abas, atualização e tema
+const ABAS = [['geral', 'Visão geral', geral], ['quando', 'Quando acontece', quando], ['datas', 'Datas especiais', datas], ['causas', 'Por que acontece', causas], ['onde', 'Onde acontece', onde],
+  ['clima', 'Clima', clima], ['uf', 'Raio-x por estado', desenhaRaioX], ['diag', 'Diagnóstico', diagnostico], ['prev', 'Previsão 2026', previsao], ['rec', 'Recomendações', recomendacoes], ['met', 'Metodologia', () => {}]];
+let abaAtual = 'geral';
+function montaAbas() {
+  $('#abas').innerHTML = ABAS.map(([id, nome]) => `<button class="aba" role="tab" id="t-${id}" aria-controls="p-${id}" aria-selected="${id === abaAtual}" data-aba="${id}">${nome}</button>`).join('');
+  $('#abas').onclick = e => { const b = e.target.closest('.aba'); if (b) abre(b.dataset.aba); };
+  $('#abas').onkeydown = e => { if (!['ArrowRight', 'ArrowLeft'].includes(e.key)) return; const i = ABAS.findIndex(a => a[0] === abaAtual); const n = ABAS[(i + (e.key === 'ArrowRight' ? 1 : ABAS.length - 1)) % ABAS.length][0]; abre(n); $('#t-' + n).focus(); };
+}
+function abre(id) {
+  abaAtual = id; $$('.aba').forEach(b => b.setAttribute('aria-selected', b.dataset.aba === id)); $$('.painel').forEach(p => p.classList.toggle('ativo', p.id === 'p-' + id));
+  try { localStorage.setItem('aba', id); } catch (e) {}
+  desenha();
+}
+function desenha() { const a = ABAS.find(x => x[0] === abaAtual); try { a[2](); } catch (e) { console.error(e); } }
+function resumoFiltro() {
+  const p = []; if (F.ano) p.push(F.ano); if (F.uf !== '') p.push(M.dic.uf[F.uf]); if (F.urb !== '') p.push(F.urb === '1' ? 'urbano' : 'rural');
+  if (F.td !== '') p.push(M.dic.td[F.td]); if (F.gc !== '') p.push(M.dic.gc[F.gc]); if (F.ch !== '') p.push('chuva: ' + M.dic.ch[F.ch].toLowerCase());
+  $('#resumoFiltro').textContent = `${fmt(A.n)} acidentes${p.length ? ' · ' + p.join(', ') : ''}`;
+}
+function atualiza() { A = agrega(); resumoFiltro(); desenha(); }
+function tema() {
+  const atual = document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  $('#btnTema').textContent = atual === 'dark' ? 'Tema claro' : 'Tema escuro';
+}
+$('#btnTema').addEventListener('click', () => {
+  const atual = document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.dataset.theme = atual === 'dark' ? 'light' : 'dark'; try { localStorage.setItem('tema', document.documentElement.dataset.theme); } catch (e) {}
+  tema(); if (A) desenha();
+});
+
+// ------------------------------------------------------------------ apresentação guiada
+const TOUR = [
+  ['geral', 'Seis anos de rodovias federais', 'Foram 406 mil acidentes e quase 34 mil mortes de 2020 a 2025. Cada traço do calendário é um dia: os mais escuros costumam cair nos fins de semana e em dezembro.'],
+  ['quando', 'A noite mata mais', 'O pico de acidentes é às 18h, mas a chance de morrer é duas a três vezes maior de madrugada. O risco noturno vale para qualquer dia da semana.'],
+  ['datas', 'O feriado não é o vilão', 'Os fins de semana comuns têm mais mortes por dia que os feriados. O risco extra do feriado está nos dias de ida, quando os acidentes sobem até 9%.'],
+  ['causas', 'A colisão frontal', 'Ela representa 7% dos acidentes e 31% das mortes, quase sempre em pista simples e após ultrapassagem. Pedestres são 3% dos casos e 12% das mortes.'],
+  ['onde', 'Poucos trechos, muitas mortes', 'Metade das mortes acontece em 15% dos trechos de 10 km. Mato Grosso tem a maior taxa por habitante; a Bahia, a maior letalidade.'],
+  ['clima', 'A chuva engana', 'Com chuva há 22% mais acidentes, mas eles são menos letais: o motorista reduz a velocidade.'],
+  ['diag', 'O que realmente pesa', 'Separando os fatores, pedestre, madrugada, ultrapassagem e pista simples aumentam a chance de morte. Ser feriado, não.'],
+  ['rec', 'O que fazer', 'Seis ações, da separação de pistas à operação noturna, com a lista de onde e quando fiscalizar.'],
+];
+let passo = 0;
+function tour(i) { passo = i; const [aba, t, x] = TOUR[i]; abre(aba); $('#tour').style.display = 'block'; $('#tourPasso').textContent = `${i + 1} de ${TOUR.length}`; $('#tourTit').textContent = t; $('#tourTxt').textContent = x;
+  $('#tourAnt').disabled = i === 0; $('#tourProx').textContent = i === TOUR.length - 1 ? 'Concluir' : 'Próximo'; window.scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); }
+$('#btnTour').onclick = () => tour(0);
+$('#tourProx').onclick = () => passo < TOUR.length - 1 ? tour(passo + 1) : ($('#tour').style.display = 'none');
+$('#tourAnt').onclick = () => passo > 0 && tour(passo - 1);
+$('#tourFim').onclick = () => $('#tour').style.display = 'none';
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('#tour').style.display = 'none'; });
+
+// ------------------------------------------------------------------ início
+$$('[data-cal]').forEach(b => b.onclick = () => { calMedida = b.dataset.cal; $$('[data-cal]').forEach(x => x.setAttribute('aria-pressed', x === b)); calendario(); });
+$$('[data-calor]').forEach(b => b.onclick = () => { calorMedida = b.dataset.calor; $$('[data-calor]').forEach(x => x.setAttribute('aria-pressed', x === b)); quando(); });
+$$('[data-uf]').forEach(b => b.onclick = () => { ufMedida = b.dataset.uf; $$('[data-uf]').forEach(x => x.setAttribute('aria-pressed', x === b)); onde(); });
+let redim; addEventListener('resize', () => { clearTimeout(redim); redim = setTimeout(() => { if (abaAtual === 'geral') calendario(); }, 150); });
+(async () => {
+  try { const t = localStorage.getItem('tema'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  tema();
+  try { await carrega(); } catch (e) { $('#carregando').textContent = 'Não foi possível carregar os dados. Verifique se a pasta data/ está publicada junto com esta página.'; return; }
+  try { const a = localStorage.getItem('aba'); if (a && ABAS.some(x => x[0] === a)) abaAtual = a; } catch (e) {}
+  $('#carregando').remove(); montaFiltros(); montaAbas(); $$('.painel').forEach(p => p.classList.toggle('ativo', p.id === 'p-' + abaAtual));
+  if (window.Chart) { Chart.defaults.font.family = 'Barlow, system-ui, sans-serif'; }
+  atualiza();
+})();
+</script>
+</body>
+</html>

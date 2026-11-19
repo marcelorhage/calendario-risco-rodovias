@@ -1,0 +1,93 @@
+                                    variavel       n   media  mediana      q1      q3  minimo  maximo  desvio_padrao  coef_variacao_%  assimetria
+0                          Acidentes por dia    2192  185.34   183.00  161.00  208.00   70.00  321.00          33.18            17.90        0.28
+1                             Mortos por dia    2192   15.49    14.00   11.00   19.00    2.00   63.00           6.49            41.91        0.92
+2                     Feridos graves por dia    2192   51.25    50.00   40.00   60.00   13.00  110.00          14.72            28.72        0.51
+3   Letalidade diária (mortos/100 acidentes)    2192    8.25     8.00    6.29   10.00    1.22   22.02           2.80            33.91        0.61
+4            Pessoas envolvidas por acidente  406255    2.56     2.00    2.00    3.00    1.00   95.00           2.11            82.50       11.17
+5                      Veículos por acidente  406255    1.98     2.00    1.00    2.00    1.00  131.00           1.11            56.13        7.48
+6                        Mortos por acidente  406255    0.08     0.00    0.00    0.00    0.00   37.00           0.34           411.14       10.23
+7                       Feridos por acidente  406255    1.14     1.00    1.00    1.00    0.00   85.00           1.19           104.00       10.51
+8             Chuva na hora do acidente (mm)  297464    0.25     0.00    0.00    0.00    0.00   77.20           1.64           662.12       14.19
+9       Temperatura na hora do acidente (°C)  295364   22.62    22.80   19.10   26.40   -3.60   43.10           5.51            24.38       -0.25
+10     Distância até a estação do INMET (km)  297464   19.97    16.96    9.01   29.68    0.04   50.00          13.29            66.55        0.57
+                     acidentes  mortos  dias  acidentes_por_dia  mortos_por_dia  letalidade
+tipo_dia                                                                                   
+Fim de semana comum     111781   11115   523             213.73           21.25        9.94
+Feriadão                 16202    1511    87             186.23           17.37        9.33
+Período festivo          10628     882    54             196.81           16.33         8.3
+Feriado                  10925    1005    62             176.21           16.21         9.2
+Ponto facultativo         6307     536    36             175.19           14.89         8.5
+Dia útil comum          250412   18914  1444             173.42           13.10        7.55
+                          acidentes  mortos  dias  acidentes_por_dia  mortos_por_dia  letalidade
+grupo_evento                                                                                    
+Independência                  3043     301    14             217.36           21.50        9.89
+Corpus Christi                 4608     469    24              192.0           19.54       10.18
+N. Sra. Aparecida              3071     270    14             219.36           19.29        8.79
+Consciência Negra              1027      96     5              205.4           19.20        9.35
+Finados                        2754     253    14             196.71           18.07        9.19
+Tiradentes                     2449     244    14             174.93           17.43        9.96
+Proclamação da República       2751     224    13             211.62           17.23        8.14
+Natal/Réveillon               11143     998    60             185.72           16.63        8.96
+Dia do Trabalho                2369     212    13             182.23           16.31        8.95
+Carnaval                       7041     541    36             195.58           15.03        7.68
+Semana Santa                   3188     253    18             177.11           14.06        7.94
+São João                        618      73    14              44.14            5.21       11.81
+                  indice  letalidade  dias
+dias_ate_feriado                          
+-3                 106.3         8.2    63
+-2                 109.4         7.9    66
+-1                 109.3         8.8    67
+0                  101.7         8.7    74
+1                   96.9         7.8    68
+2                   95.1         8.2    67
+3                   95.9         8.3    65
+                                       acidentes  mortos  letalidade  %_acidentes  %_mortos
+grupo_causa                                                                                
+Manobras e desrespeito às regras           75571    9817       12.99         18.6     28.90
+Falta de atenção / reação do condutor     147825    9303        6.29        36.39     27.39
+Pedestre                                   13181    4016       30.47         3.24     11.82
+Velocidade                                 30380    3296       10.85         7.48      9.70
+Sono e condição de saúde                   16877    1965       11.64         4.15      5.79
+Via e sinalização                          23204    1600         6.9         5.71      4.71
+Álcool e drogas (condutor)                 25700    1391        5.41         6.33      4.10
+Falha do veículo                           29652     987        3.33          7.3      2.91
+Animais e obstáculos                       10885     644        5.92         2.68      1.90
+Distância de segurança                     26229     562        2.14         6.46      1.65
+Clima e ambiente                            6751     382        5.66         1.66      1.12
+{'total_trechos': 6610, 'trechos_com_morte': 5404, 'pct_trechos_50pct_mortes': 15.49, 'n_trechos_50pct_mortes': 1024, 'pct_mortes_top_1pct': 7.92}
+                      acidentes  mortos           municipio
+trecho                                                     
+BR-381/SP km 80–90          898      86           SAO PAULO
+BR-116/SP km 210–220       1982      77           GUARULHOS
+BR-116/SP km 220–230       2301      75           GUARULHOS
+BR-116/RJ km 180–190       1240      60         NOVA IGUACU
+BR-101/PE km 70–80         1131      59              RECIFE
+BR-116/RJ km 170–180       1451      58  SAO JOAO DE MERITI
+BR-101/SC km 200–210       3227      56            SAO JOSE
+BR-101/SC km 130–140       1678      56  BALNEARIO CAMBORIU
+BR-381/MG km 480–490       1632      54               BETIM
+BR-101/PE km 50–60          783      51            PAULISTA
+        acidentes  mortos  letalidade
+urbano                               
+False      229915   25280        11.0
+True       176340    8683        4.92
+             acidentes  mortos  letalidade
+fase_dia                                  
+Amanhecer        19525    2464       12.62
+Anoitecer        22339    1702        7.62
+Plena Noite     142327   16417       11.53
+Pleno dia       222064   13380        6.03
+            acidentes  mortos  letalidade
+tipo_pista                               
+Dupla          169723    8768        5.17
+Múltipla        36907    1582        4.29
+Simples        199625   23613       11.83
+      acidentes  mortos  feridos_graves  acidentes_fatais  letalidade  mortos_100mil  var_acidentes_%
+ano                                                                                                  
+2020      63585    5292           17134              4525        8.32           2.50             <NA>
+2021      64567    5397           17681              4665        8.36           2.53             1.54
+2022      64606    5441           18173              4664        8.42           2.68             0.06
+2023      67766    5627           18958              4858         8.3           2.71             4.89
+2024      73202    6163           20372              5225        8.42           2.90             8.02
+2025      72529    6043           20018              5210        8.33           2.83            -0.92
+dia recorde {'data': '2024-12-21', 'acidentes': 321} {'data': '2024-12-21', 'mortos': 63}
