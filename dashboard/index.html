@@ -519,6 +519,8 @@ function calendario() {
   let vals = []; for (let d = 0; d < ND; d++) if (anos.includes(anoDe(d))) vals.push(v[d]);
   vals.sort((a, b) => a - b); const lo = vals[Math.floor(vals.length * .02)] || 0, hi = vals[Math.floor(vals.length * .98)] || 1;
   const pref = calMedida === 'm' ? 'oseq' : 'seq', n = 7;
+  const escuro = (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+  $('#calSub').textContent = `Cada traço é um dia; quanto mais ${escuro ? 'clara' : 'escura'} a cor, mais ${calMedida === 'm' ? 'mortes' : 'acidentes'} no dia. Passe o mouse para ver a data.`;
   $('#calRampa').style.background = `linear-gradient(90deg, ${[...Array(n).keys()].map(k => css(`--${pref}-${k + (pref === 'seq' ? 1 : 0)}`)).join(',')})`;
   const cont = $('#calLinhas'); cont.innerHTML = '';
   for (const a of [2020, 2021, 2022, 2023, 2024, 2025]) {
@@ -835,7 +837,7 @@ $('#btnTema').addEventListener('click', () => {
 
 // ------------------------------------------------------------------ apresentação guiada
 const TOUR = [
-  ['geral', 'Seis anos de rodovias federais', 'Foram 406 mil acidentes e quase 34 mil mortes de 2020 a 2025. Cada traço do calendário é um dia: os mais escuros costumam cair nos fins de semana e em dezembro.'],
+  ['geral', 'Seis anos de rodovias federais', 'Foram 406 mil acidentes e quase 34 mil mortes de 2020 a 2025. Cada traço do calendário é um dia: os dias com mais mortes costumam cair nos fins de semana e em dezembro.'],
   ['quando', 'A noite mata mais', 'O pico de acidentes é às 18h, mas a chance de morrer é duas a três vezes maior de madrugada. O risco noturno vale para qualquer dia da semana.'],
   ['datas', 'O feriado não é o vilão', 'Os fins de semana comuns têm mais mortes por dia que os feriados. O risco extra do feriado está nos dias de ida, quando os acidentes sobem até 9%.'],
   ['causas', 'A colisão frontal', 'Ela representa 7% dos acidentes e 31% das mortes, quase sempre em pista simples e após ultrapassagem. Pedestres são 3% dos casos e 12% das mortes.'],
