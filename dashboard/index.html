@@ -148,7 +148,7 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 .lad{aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:600 13px "Barlow Semi Condensed",sans-serif;cursor:pointer;border:2px solid transparent}
 .lad small{font:500 11px Barlow,sans-serif;opacity:.9}
 .lad.sel{border-color:var(--lane)}
-#mapa{height:420px;border-radius:var(--r-md);border:1px solid var(--line)}
+#mapa{height:500px;border-radius:var(--r-md);border:1px solid var(--line)}
 
 /* Recomendações */
 .rec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:6px}
@@ -645,7 +645,20 @@ function causas() {
 // ------------------------------------------------------------------ ONDE
 const LAD = {RR: [3, 0], AP: [4, 0], AM: [2, 1], PA: [3, 1], MA: [4, 1], CE: [5, 1], RN: [6, 1], AC: [1, 2], RO: [2, 2], TO: [3, 2], PI: [4, 2], PE: [5, 2], PB: [6, 2],
   MT: [2, 3], GO: [3, 3], BA: [4, 3], SE: [5, 3], AL: [6, 3], MS: [2, 4], DF: [3, 4], MG: [4, 4], ES: [5, 4], PR: [2, 5], SP: [3, 5], RJ: [4, 5], SC: [2, 6], RS: [2, 7]};
-let ufMedida = 'mh', mapa, camada;
+let ufMedida = 'mh', mapa, camada, fundo, fundoUrl;
+const ESRI = t => `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${t}_Gray_Base/MapServer/tile/{z}/{y}/{x}`;
+const OSM = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+function baseMapa(forcaOsm) {
+  const escuro = (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+  const url = forcaOsm ? OSM : ESRI(escuro ? 'Dark' : 'Light');
+  if (fundo && fundoUrl === url) return;
+  if (fundo) fundo.remove();
+  fundoUrl = url;
+  fundo = L.tileLayer(url, {maxZoom: forcaOsm ? 19 : 16, attribution: forcaOsm ? '&copy; colaboradores do OpenStreetMap' : 'Mapa de fundo &copy; Esri, HERE, Garmin, &copy; colaboradores do OpenStreetMap'}).addTo(mapa);
+  fundo.bringToBack();
+  let erros = 0;
+  if (!forcaOsm) fundo.on('tileerror', () => { if (++erros === 4) baseMapa(true); });
+}
 function onde() {
   // estados: ignoram o filtro de estado, para permitir a comparação
   const ufN = new Float64Array(27), ufM = new Float64Array(27);
@@ -670,7 +683,8 @@ function onde() {
   $('#tTrechos').innerHTML = `<tr><th>#</th><th>Trecho</th><th>Município</th><th class="n">Acidentes</th><th class="n">Mortos</th><th class="n">Letalidade</th></tr>` +
     top.map((t, k) => { const [nome, , , , mun] = M.trechos[t - 1]; return `<tr><td>${k + 1}</td><td>${nome}</td><td>${mun}</td><td class="n">${fmt(A.tr[t])}</td><td class="n"><span class="barra-in" style="width:${A.trM[t] / mxM * 60}px"></span>${fmt(A.trM[t])}</td><td class="n">${fmt(let_(A.trM[t], A.tr[t]), 1)}</td></tr>`; }).join('');
   if (window.L) {
-    if (!mapa) { mapa = L.map('mapa', {scrollWheelZoom: false}).setView([-14.5, -51], 4); L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 12}).addTo(mapa); }
+    if (!mapa) mapa = L.map('mapa', {scrollWheelZoom: false}).setView([-14.5, -51], 4);
+    baseMapa();
     if (camada) camada.remove(); camada = L.layerGroup().addTo(mapa);
     const t150 = tr.slice(0, 150), mx = A.trM[t150[0]] || 1;
     for (const t of t150) { const [nome, , la, lo, mun] = M.trechos[t - 1]; if (la == null) continue;
